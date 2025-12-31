@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shinorail-Group リンク集</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        body {
+            margin: 0;
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            color: #333;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+        }
+
+        /* 赤いお知らせバー */
+        .info-bar {
+            background-color: #d93025;
+            color: white;
+            padding: 12px 15px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .logo { font-size: 20px; color: #5f6368; font-weight: bold; }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* リンクグリッド（レスポンシブ） */
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        /* ボタンの共通スタイル */
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 20px;
+            border-radius: 12px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            gap: 12px;
+            animation: fadeInUp 0.8s ease-out both;
+        }
+        
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            filter: brightness(1.1);
+        }
+
+        /* 配色 */
+        .btn-new { background: linear-gradient(135deg, #00c853, #00a651); }
+        .btn-old { background: linear-gradient(135deg, #81c784, #66bb6a); }
+        .btn-twitter { background: linear-gradient(135deg, #1da1f2, #0c85d0); }
+        .btn-special { background: linear-gradient(135deg, #424242, #212121); }
+        .btn-contact { background: linear-gradient(135deg, #78909c, #546e7a); }
+
+        /* ポップアップ */
+        #popup-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.75);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.3s;
+            padding: 20px;
+        }
+        #popup-content {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            transform: scale(0.9);
+            transition: 0.3s;
+        }
+        .show-popup { visibility: visible !important; opacity: 1 !important; }
+        .show-popup #popup-content { transform: scale(1); }
+        .close-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: #0b57d0;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        footer {
+            margin-top: 60px;
+            padding: 40px 20px;
+            text-align: center;
+            color: #888;
+            font-size: 13px;
+        }
+
+        /* スマホ向け調整 */
+        @media (max-width: 480px) {
+            header { padding: 15px 5%; }
+            .logo { font-size: 18px; }
+            .btn { padding: 15px; font-size: 15px; }
+            .info-bar { font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="info-bar">
+        <span>【重要】旧サイトは完成後に閉鎖します。同時更新中。</span>
+    </div>
+
+    <div id="popup-overlay">
+        <div id="popup-content">
+            <h3 style="margin-top:0;">お知らせ</h3>
+            <p>旧公式サイトは新サイト完成に伴い、将来的に閉鎖いたします。ブックマークの更新をお願いいたします。</p>
+            <button class="close-btn" onclick="closePopup()">了解しました</button>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo">Shinorail-Group</div>
+    </header>
+
+    <div class="container">
+        <div class="link-grid">
+            <a href="https://t.co/P00r6U34D0" class="btn btn-new"><i class="fa-brands fa-google"></i> 篠ノ井乗務区 公式（新）</a>
+            <a href="https://sites.google.com/view/shinorail/" class="btn btn-old"><i class="fa-brands fa-google"></i> 篠ノ井乗務区 公式（旧）</a>
+            <a href="https://sites.google.com/view/shinorail-lab/" class="btn btn-new"><i class="fa-brands fa-google"></i> しのれーるらぼ サイト</a>
+            <a href="https://x.com/Shino_Rail" class="btn btn-twitter"><i class="fa-brands fa-x-twitter"></i> 篠ノ井乗務区 Twitter</a>
+            <a href="https://x.com/shinorail_lab" class="btn btn-twitter"><i class="fa-brands fa-x-twitter"></i> しのれーるらぼ Twitter</a>
+            <a href="https://shinorail.github.io/shinonoi-2026/" class="btn btn-special"><i class="fa-solid fa-wand-magic-sparkles"></i> 2026カウントダウン・おみくじ</a>
+            <a href="https://shinorail.github.io/shinonoi-2026/contact.html" class="btn btn-contact"><i class="fa-solid fa-envelope"></i> お問い合わせ</a>
+        </div>
+
+        <footer>
+            <div style="font-weight:bold; margin-bottom:5px;">Version 2.5.0</div>
+            <div>&copy; 2025 Shinorail-Group. All Rights Reserved.</div>
+        </footer>
+    </div>
+
+    <script>
+        window.onload = function() {
+            setTimeout(function() {
+                document.getElementById('popup-overlay').classList.add('show-popup');
+            }, 600);
+        };
+
+        function closePopup() {
+            document.getElementById('popup-overlay').classList.remove('show-popup');
+        }
+    </script>
+</body>
+</html>
