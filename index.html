@@ -3,218 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>篠ノ井乗務区 | Shinonoi Rail Crew Creative</title>
-    <style>
-        /* --- 基本設定（ダークモード & 鉄道カラー） --- */
-        :root {
-            --bg-color: #121212;         /* 漆黒（夜の運転台） */
-            --bg-card: #1e1e1e;          /* 少し明るい黒 */
-            --text-main: #e0e0e0;        /* 読みやすい白 */
-            --accent-green: #00ffbf;     /* サイバー長野緑（計器類） */
-            --accent-blue: #00e0ff;      /* サイバー長野青（信号） */
-            --border-color: #333;        /* 境界線 */
-            --font-family: 'Helvetica Neue', 'Arial', 'Hiragino Kaku Gothic ProN', sans-serif;
-        }
-
-        body {
-            font-family: var(--font-family);
-            margin: 0;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        a { text-decoration: none; color: inherit; transition: 0.3s; }
-
-        /* --- ヘッダー & ナビゲーション（駅名標風） --- */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 5%;
-            background-color: rgba(0, 0, 0, 0.8); /* 透過ブラック */
-            border-bottom: 2px solid var(--accent-green); /* 路線カラー */
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(5px);
-        }
-
-        .logo {
-            font-size: 1.6rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            color: #fff;
-            display: flex;
-            align-items: center;
-        }
-        .logo-jp { margin-right: 10px; }
-        .logo-en { font-size: 0.9rem; color: #aaa; font-weight: normal; }
-
-        /* ナビゲーション（PC用） */
-        .nav-links {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .nav-links li { margin-left: 1.5rem; }
-
-        .nav-links a {
-            font-size: 1rem;
-            font-weight: 500;
-            color: #ccc;
-            position: relative;
-            padding: 5px 0;
-        }
-
-        /* ホバー時の路線図風下線アニメーション */
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: var(--accent-blue);
-            transition: width 0.3s;
-        }
-        .nav-links a:hover { color: #fff; }
-        .nav-links a:hover::after { width: 100%; }
-
-        /* --- ハンバーガーメニュー（CSSのみ） --- */
-        #menu-toggle { display: none; }
-
-        .menu-icon {
-            display: none; /* 初期は隠す */
-            cursor: pointer;
-            width: 30px;
-            height: 20px;
-            position: relative;
-            z-index: 110;
-        }
-
-        /* 三本線の描画 */
-        .menu-icon span {
-            display: block;
-            width: 100%;
-            height: 2px;
-            background-color: #fff;
-            position: absolute;
-            transition: 0.3s;
-        }
-        .menu-icon span:nth-child(1) { top: 0; }
-        .menu-icon span:nth-child(2) { top: 9px; }
-        .menu-icon span:nth-child(3) { top: 18px; }
-
-        /* --- ヒーローセクション（サイバー鉄道） --- */
-        .hero {
-            height: 90vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: 
-                radial-gradient(circle at center, rgba(0,255,191,0.1) 0%, rgba(0,0,0,0) 70%),
-                url('https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?q=80&w=2000') no-repeat center center/cover; /* 線路の画像などを背景に */
-            padding: 0 20px;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 900;
-        }
-
-        .hero p {
-            font-size: clamp(1rem, 2vw, 1.5rem);
-            color: #aaa;
-            max-width: 700px;
-            margin-bottom: 2rem;
-        }
-
-        .btn {
-            padding: 12px 30px;
-            background-color: transparent;
-            border: 2px solid var(--accent-green);
-            color: var(--accent-green);
-            font-weight: bold;
-            letter-spacing: 1px;
-            border-radius: 5px;
-        }
-        .btn:hover {
-            background-color: var(--accent-green);
-            color: var(--bg-color);
-            box-shadow: 0 0 15px rgba(0,255,191,0.5);
-        }
-
-        /* --- レスポンシブ設定（スマホ時） --- */
-        @media screen and (max-width: 768px) {
-            .menu-icon { display: block; } /* ハンバーガー表示 */
-
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%; /* 画面外に隠す */
-                width: 70%;
-                height: 100vh;
-                background-color: var(--bg-card);
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                transition: 0.4s;
-                box-shadow: -5px 0 15px rgba(0,0,0,0.5);
-            }
-
-            .nav-links li { margin: 1.5rem 0; }
-            .nav-links a { font-size: 1.2rem; }
-
-            /* メニュー開いた時のスイッチ */
-            #menu-toggle:checked ~ .nav-links { right: 0; }
-            
-            /* 三本線がバツ印に変わるアニメーション */
-            #menu-toggle:checked + .menu-icon span:nth-child(1) { transform: translateY(9px) rotate(45deg); background-color: var(--accent-blue); }
-            #menu-toggle:checked + .menu-icon span:nth-child(2) { opacity: 0; }
-            #menu-toggle:checked + .menu-icon span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); background-color: var(--accent-blue); }
-        }
-    </style>
+    <title>篠ノ井乗務区 | Railway & Technology</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
-    <div class="logo">
-        <span class="logo-jp">篠ノ井乗務区</span>
-        <span class="logo-en">S.R.C.C.</span>
-    </div>
+    <div class="logo">篠ノ井乗務区 <span>S.R.C.C.</span></div>
     
-    <input type="checkbox" id="menu-toggle">
-    <label for="menu-toggle" class="menu-icon">
-        <span></span>
-        <span></span>
-        <span></span>
-    </label>
+    <button class="hamburger" id="js-hamburger">
+        <span></span><span></span><span></span>
+    </button>
 
-    <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#works">Works</a></li>
-        <li><a href="#tech">Tech stack</a></li>
-    </ul>
+    <nav id="js-nav"></nav>
 </header>
 
 <main>
     <section class="hero">
-        <h1>RAILWAY<br>& TECHNOLOGY</h1>
-        <p>篠ノ井乗務区は、鉄道文化と現代のデジタルテクノロジーを融合させる、架空のクリエイティブ・ユニットです。</p>
-        <a href="#services" class="btn">業務案内をみる</a>
+        <div class="hero-content">
+            <h1>RAILWAY × <br class="sp-only">TECHNOLOGY</h1>
+            <p>鉄道の情熱を、デジタルの力で形にする。</p>
+        </div>
+    </section>
+
+    <section class="greeting">
+        <div class="container">
+            <h2>GREETING</h2>
+            <div class="greeting-box">
+                <p>
+                    「篠ノ井乗務区」のページへようこそ。<br>
+                    当組織は、信州の鉄路を愛する情熱と、現代のシステム開発・クリエイティブ技術を融合させた架空のユニットです。
+                </p>
+                <p>
+                    かつて鉄道が石炭から電気へと進化を遂げたように、私たちの鉄道趣味もまた、アナログな記録からデジタルな創造へと進化しています。<br>
+                    ホームページ制作、システム開発、そして動画編集。技術という名の「ハンドル」を握り、新しい表現の地平を目指して日々「運行」しています。
+                </p>
+                <p class="signature">篠ノ井乗務区 代表</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="services-summary">
+        <div class="container">
+            <div class="summary-grid">
+                <div class="card">
+                    <h3>Dev</h3>
+                    <p>Webシステム・ツール開発</p>
+                </div>
+                <div class="card">
+                    <h3>Design</h3>
+                    <p>HP制作・UIデザイン</p>
+                </div>
+                <div class="card">
+                    <h3>Edit</h3>
+                    <p>鉄道動画・映像編集</p>
+                </div>
+            </div>
+        </div>
     </section>
 </main>
 
+<footer>
+    <p>&copy; 篠ノ井乗務区 Shinonoi Rail Crew Creative</p>
+</footer>
+
+<script src="menu.js"></script>
 </body>
 </html>
