@@ -165,3 +165,54 @@ header {
     .info-table th { width: 40%; }
     .message-content { padding: 25px; }
 }
+/* --- ハンバーガーボタンのスタイリング --- */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 10px;
+    z-index: 1100;
+    position: relative;
+    width: 40px;
+    height: 40px;
+}
+
+/* 3本の線の共通スタイル */
+.hamburger span {
+    display: block;
+    position: absolute;
+    width: 30px;
+    height: 2px;
+    background-color: var(--text-main);
+    transition: all 0.4s ease-in-out;
+    left: 5px;
+}
+
+/* 1本目（上）、2本目（中）、3本目（下）の初期位置 */
+.hamburger span:nth-child(1) { top: 12px; }
+.hamburger span:nth-child(2) { top: 20px; }
+.hamburger span:nth-child(3) { top: 28px; }
+
+/* --- 閉じるボタン（×）への変形 --- */
+.hamburger.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+    background-color: var(--accent-blue);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+    background-color: var(--accent-blue);
+}
+
+/* スマホ時のみ表示 */
+@media screen and (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+}
