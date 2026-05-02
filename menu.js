@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {　
     const navContainer = document.getElementById('js-nav');
     const hamburger = document.getElementById('js-hamburger');
 
