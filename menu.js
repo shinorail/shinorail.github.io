@@ -1,18 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
+    const navContainer = document.getElementById('js-nav');
+    const hamburger = document.getElementById('js-hamburger');
 
-    // ボタンクリックでメニュー開閉
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navLinks.classList.toggle('active');
+    // メニュー項目（ここで一括管理）
+    const menuItems = [
+        { name: 'HOME', url: 'index.html' },
+        { name: 'ABOUT', url: 'about.html' },
+        { name: 'SERVICES', url: 'services.html' },
+        { name: 'WORKS', url: 'works.html' }
+    ];
+
+    // メニューの組み立て
+    const navUl = document.createElement('ul');
+    navUl.className = 'nav-links';
+
+    menuItems.forEach(item => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = item.url;
+        a.textContent = item.name;
+        
+        // 現在のページ判定
+        if (window.location.pathname.endsWith(item.url)) {
+            a.style.color = 'var(--accent-green)';
+            a.style.fontWeight = 'bold';
+        }
+
+        li.appendChild(a);
+        navUl.appendChild(li);
     });
 
-    // リンクをクリックしたら自動で閉じる（ページ内リンク対策）
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navLinks.classList.remove('active');
-        });
+    navContainer.appendChild(navUl);
+
+    // ハンバーガー開閉
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navUl.classList.toggle('active');
     });
 });
