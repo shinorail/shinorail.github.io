@@ -1,0 +1,104 @@
+/* --- 変数定義 --- */
+:root {
+    --bg-dark: #0f1115;          /* 深い夜色 */
+    --bg-card: #1a1d23;          /* パネル色 */
+    --accent-green: #00ffbf;     /* 信号・計器の緑 */
+    --accent-blue: #00e0ff;      /* 信号・計器の青 */
+    --text-main: #e0e6ed;
+    --text-sub: #94a3b8;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+}
+
+/* --- ヘッダー --- */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+    background: rgba(15, 17, 21, 0.95);
+    border-bottom: 2px solid var(--accent-green);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: var(--accent-blue);
+    font-size: 0.8rem;
+    margin-left: 8px;
+}
+
+/* --- ナビゲーション --- */
+.nav-links {
+    display: flex;
+    list-style: none;
+    margin: 0;
+}
+
+.nav-links li { margin-left: 2rem; }
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-main);
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.nav-links a:hover { color: var(--accent-green); }
+
+/* --- ハンバーガーボタン --- */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+    z-index: 1100;
+}
+
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background: #fff;
+    margin: 5px 0;
+    transition: 0.4s;
+}
+
+/* --- レスポンシブ --- */
+@media screen and (max-width: 768px) {
+    .hamburger { display: block; }
+
+    .nav-links {
+        position: fixed;
+        right: -100%;
+        top: 0;
+        width: 70%;
+        height: 100vh;
+        background: var(--bg-card);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: 0.4s;
+    }
+
+    .nav-links.active { right: 0; }
+    
+    /* バツ印に変形 */
+    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+}
