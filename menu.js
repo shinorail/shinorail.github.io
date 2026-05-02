@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const navContainer = document.getElementById('js-nav');
     const hamburger = document.getElementById('js-hamburger');
 
-    // メニュー項目（ここで一括管理）
+    // メニュー項目（ここで一括管理）　
     const menuItems = [
         { name: 'HOME', url: 'index.html' },
         { name: 'ABOUT', url: 'about.html' },
