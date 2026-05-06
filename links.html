@@ -2,29 +2,80 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>LINKS | Shinorail-Group</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .link-container { max-width: 500px; margin: 40px auto; padding: 20px; text-align: center; }
-        .link-button {
-            display: flex; align-items: center; justify-content: center;
-            width: 100%; padding: 18px; margin-bottom: 15px; border-radius: 15px;
-            color: white; text-decoration: none; font-weight: bold; font-size: 1.1rem;
-            transition: transform 0.2s, box-shadow 0.2s; border: none;
+        /* リンク集専用の追加スタイル */
+        .link-container { 
+            max-width: 500px; 
+            margin: 40px auto; 
+            padding: 20px; 
+            text-align: center; 
         }
-        .link-button i { margin-right: 15px; font-size: 1.2rem; }
-        .link-button:hover { transform: scale(1.03); box-shadow: 0 5px 15px rgba(0,255,191,0.3); }
-
-        /* 各ボタンのカラー指定 */
-        .btn-multi { background-color: #b09343; }
-        .btn-official { background-color: #44d35d; }
-        .btn-lab { background-color: #333333; border: 1px solid #444; }
-        .btn-twitter { background-color: #4da3f1; }
-        .btn-contact { background-color: #7d91a1; }
         
-        .ad-space { background: var(--bg-card); border-radius: 15px; padding: 40px; margin-top: 30px; border: 1px dashed #444; color: #555; }
+        .link-grid { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+            margin-bottom: 30px; 
+        }
+
+        .btn {
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 12px;
+            padding: 18px; 
+            border-radius: 15px; 
+            color: white; 
+            text-decoration: none;
+            font-weight: bold; 
+            transition: 0.3s; 
+            border: none;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 6px 20px rgba(0,255,191,0.3);
+        }
+
+        /* 画像に基づいたカラー設定 */
+        .btn-multix { background: linear-gradient(135deg, #d4af37, #aa8a2e); } /* 金 */
+        .btn-official { background: #00c853; } /* 緑 */
+        .btn-lab { background: #333; border: 1px solid #444; } /* 黒 */
+        .btn-twitter { background: #1da1f2; } /* 青 */
+        .btn-contact { background: #78909c; } /* グレー */
+
+        /* 広告エリアのデザイン（ダークモード対応） */
+        .ad-area {
+            margin: 20px 0;
+            padding: 15px;
+            background: var(--bg-card); /* 共通CSSの変数を使用 */
+            border-radius: 15px;
+            border: 1px solid #333;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .ad-label {
+            font-size: 10px;
+            color: var(--text-sub);
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+        }
+
+        .link-footer { 
+            margin-top: 30px; 
+            font-size: 12px; 
+            color: var(--text-sub); 
+            line-height: 1.6; 
+        }
     </style>
 </head>
 <body>
@@ -39,23 +90,37 @@
 
 <main>
     <div class="link-container">
-        <h2 style="margin-bottom: 30px; letter-spacing: 2px;">Shinonail-Group</h2>
+        <h2 style="margin-bottom: 30px; letter-spacing: 2px; color: var(--accent-blue);">Shinorail-Group</h2>
         
-        <a href="#" class="link-button btn-multi"><i class="fas fa-microchip"></i> Multi-X Utility</a>
-        <a href="index.html" class="link-button btn-official"><i class="fab fa-google"></i> 篠ノ井乗務区 公式（新）</a>
-        <a href="https://github.com/shinorail" class="link-button btn-lab"><i class="fab fa-github"></i> しのれーるらぼ</a>
-        <a href="https://twitter.com/shinorail" class="link-button btn-twitter"><i class="fab fa-x-twitter"></i> 篠ノ井乗務区 Twitter</a>
-        <a href="#" class="link-button btn-contact"><i class="fas fa-envelope"></i> お問い合わせ</a>
+        <div class="link-grid">
+            <a href="https://shinorail.github.io/multi-x-utility/" class="btn btn-multix">
+                <i class="fa-solid fa-microchip"></i> Multi-X Utility
+            </a>
+            <a href="https://t.co/P00r6U34D0" class="btn btn-official">
+                <i class="fa-brands fa-google"></i> 篠ノ井乗務区 公式（新）
+            </a>
+            <a href="https://shinorail.github.io/lab/" class="btn btn-lab">
+                <i class="fa-brands fa-github"></i> しのれーるらぼ
+            </a>
+            <a href="https://x.com/Shino_Rail" class="btn btn-twitter">
+                <i class="fa-brands fa-x-twitter"></i> 篠ノ井乗務区 Twitter
+            </a>
+            <a href="contact.html" class="btn btn-contact">
+                <i class="fa-solid fa-file-signature"></i> お問い合わせ
+            </a>
+        </div>
 
-        <div class="ad-space">
-            <p style="font-size: 0.8rem;">ADVERTISEMENT</p>
-            </div>
+        <div class="ad-area">
+            <div class="ad-label">ADVERTISEMENT</div>
+            <script src="https://adm.shinobi.jp/o/2791c03bc086135607731d2a0eb484fd"></script>
+        </div>
+
+        <footer class="link-footer">
+            <p>※サービス維持のため、広告を表示しています。<br>ご理解とご協力をお願い申し上げます。</p>
+            <p>&copy; 2026 Shinorail-Group. All Rights Reserved.</p>
+        </footer>
     </div>
 </main>
-
-<footer>
-    <p>&copy; 篠ノ井乗務区 Shinonoi Rail Crew Creative</p>
-</footer>
 
 <script src="menu.js"></script>
 </body>
