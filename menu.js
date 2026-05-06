@@ -1,27 +1,39 @@
-document.addEventListener('DOMContentLoaded', () => {　
+/* ==========================================================================
+   篠ノ井乗務区 S.R.C.C. Official Navigation Script (menu.js)
+   ========================================================================== */
+
+document.addEventListener('DOMContentLoaded', () => {
     const navContainer = document.getElementById('js-nav');
     const hamburger = document.getElementById('js-hamburger');
 
-    // 1. メニューデータ
+    // 1. メニューデータ (全ページ一新に合わせたリンク構成)
     const menuItems = [
         { name: 'HOME', url: 'index.html' },
-        { name: 'ABOUT', url: 'about.html' },
         { name: 'SERVICES', url: 'services.html' },
-        { name: 'WORKS', url: 'works.html' }
+        { name: 'WORKS', url: 'works.html' },
+        { name: 'LINKS', url: 'links.html' }
     ];
 
     // 2. メニュー生成
+    // ※ navContainerが存在しないページでのエラーを防ぐ
+    if (!navContainer) return;
+
     const navUl = document.createElement('ul');
     navUl.className = 'nav-links';
+
     menuItems.forEach(item => {
         const li = document.createElement('li');
         const a = document.createElement('a');
         a.href = item.url;
         a.textContent = item.name;
         
-        // 現在のページ判定
+        // 現在のページ判定ロジック
         const currentPath = window.location.pathname;
-        if (currentPath.endsWith(item.url) || (currentPath === '/' && item.url === 'index.html')) {
+        const isHomePage = (currentPath === '/' || currentPath.endsWith('index.html'));
+        
+        if (isHomePage && item.url === 'index.html') {
+            a.classList.add('active-page');
+        } else if (currentPath.endsWith(item.url)) {
             a.classList.add('active-page');
         }
 
@@ -30,19 +42,34 @@ document.addEventListener('DOMContentLoaded', () => {　
     });
     navContainer.appendChild(navUl);
 
-    // 3. 開閉制御関数
+    // 3. 開閉制御関数 (ハンバーガーメニュー用)
     const toggleMenu = () => {
+        if (!hamburger) return;
         hamburger.classList.toggle('active');
         navUl.classList.toggle('active');
+        
+        // メニュー開閉時に背景固定をする場合はここに追加
+        if (navUl.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
     };
 
     const closeMenu = () => {
+        if (!hamburger) return;
         hamburger.classList.remove('active');
         navUl.classList.remove('active');
+        document.body.style.overflow = 'auto';
     };
 
     // ボタンクリックイベント
-    hamburger.addEventListener('click', toggleMenu);
+    if (hamburger) {
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation(); // イベントの伝搬を止める
+            toggleMenu();
+        });
+    }
 
     // リンクをクリックしたらメニューを閉じる
     navUl.querySelectorAll('a').forEach(link => {
@@ -51,8 +78,10 @@ document.addEventListener('DOMContentLoaded', () => {　
 
     // メニューの外側をクリックしたら閉じる (スマホ時のUX向上)
     document.addEventListener('click', (e) => {
-        if (!navContainer.contains(e.target) && !hamburger.contains(e.target)) {
-            closeMenu();
+        if (navUl.classList.contains('active')) {
+            if (!navContainer.contains(e.target) && !hamburger.contains(e.target)) {
+                closeMenu();
+            }
         }
     });
 });
