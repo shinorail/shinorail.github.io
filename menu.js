@@ -85,3 +85,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+// --- スクロール監視 (Intersection Observer) ---
+document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+});
+
+// --- ローディング解除 ---
+window.addEventListener('load', () => {
+    const loader = document.getElementById('loader');
+    if (loader) {
+        setTimeout(() => {
+            loader.classList.add('loader-fadeout');
+        }, 1200); // 出発進行を見せる時間
+    }
+});
