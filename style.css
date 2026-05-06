@@ -358,3 +358,66 @@ footer {
         width: 40%;
     }
 }
+/* --- 演出用追加スタイル --- */
+
+/* ローディング画面全体 */
+#loader {
+    position: fixed;
+    inset: 0;
+    background: var(--bg-dark);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s ease;
+}
+
+/* 読み込み完了後に消す用クラス */
+.loader-fadeout {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* 線路と電車の動き */
+.train-track {
+    width: 200px;
+    height: 2px;
+    background: #333;
+    position: relative;
+    margin: 0 auto 20px;
+}
+
+.train-icon {
+    position: absolute;
+    top: -20px;
+    left: -30px;
+    color: var(--accent-green);
+    font-size: 1.5rem;
+    animation: train-run 1.5s infinite linear;
+}
+
+.shuppatsu {
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 5px;
+    color: var(--accent-blue);
+    font-size: 1.2rem;
+    filter: drop-shadow(0 0 5px var(--accent-blue));
+}
+
+@keyframes train-run {
+    0% { left: -30px; }
+    100% { left: 210px; }
+}
+
+/* スクロールフェードイン */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
