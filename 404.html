@@ -2,32 +2,112 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 Not Found | 篠ノ井乗務区</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .error-container {
             height: 80vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             text-align: center;
         }
-        .error-code { font-size: 8rem; color: var(--accent-green); font-weight: bold; margin: 0; }
-        .error-msg { font-size: 1.5rem; color: var(--accent-blue); margin-bottom: 30px; }
+
+        .error-code {
+            font-size: 8rem;
+            font-weight: bold;
+            line-height: 1;
+            background: linear-gradient(var(--accent-green), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 191, 0.5));
+        }
+
+        .error-message {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+
+        .error-description {
+            color: var(--text-sub);
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: transparent;
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back-home:hover {
+            background: var(--accent-green);
+            color: var(--bg-dark);
+            box-shadow: 0 0 20px var(--accent-green);
+            transform: translateY(-3px);
+        }
+
+        /* 鉄道らしい演出：信号機のイメージ */
+        .signal {
+            width: 15px;
+            height: 15px;
+            background-color: #ff4444; /* 停止信号 */
+            border-radius: 50%;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px #ff4444;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
     </style>
 </head>
 <body>
-    <header>
-        <div class="logo">篠ノ井乗務区 <span>S.R.C.C.</span></div>
-    </header>
 
-    <main class="error-container">
-        <p class="error-code">404</p>
-        <p class="error-msg">ご指定の「路線の終点」は見つかりませんでした。</p>
-        <a href="index.html" class="btn">トップへ戻る</a>
-    </main>
+<header>
+    <div class="logo">篠ノ井乗務区 <span>S.R.C.C.</span></div>
+    <button class="hamburger" id="js-hamburger">
+        <span></span><span></span><span></span>
+    </button>
+    <nav id="js-nav"></nav>
+</header>
 
-    <script src="menu.js"></script>
+<main class="container">
+    <div class="error-container">
+        <div class="signal"></div>
+        <div class="error-code">404</div>
+        <h1 class="error-message">ページが見つかりません</h1>
+        <p class="error-description">
+            お探しのページは、移動または削除されたか、<br>
+            URLが間違っている可能性があります。<br>
+            信号を確認し、正しい経路へお戻りください。
+        </p>
+        <a href="index.html" class="back-home">
+            <i class="fas fa-train"></i> トップページへ戻る
+        </a>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2026 篠ノ井乗務区 Shinonoi Rail Crew Creative</p>
+</footer>
+
+<script src="menu.js"></script>
 </body>
 </html>
