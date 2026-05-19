@@ -3,275 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHINONOI CREATIVE STORE</title>
-    
+    <title>SHINONOI STORE | Official</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    
     <style>
-        :root {
-            --primary-color: #0066ff; /* アクセントカラー */
-            --bg-light: #f8f9fa;
-        }
-
-        body {
-            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
-            background-color: #ffffff;
-            color: #333;
-            padding-top: 70px; /* Header offset */
-        }
-
-        /* Navbar Customization */
-        .navbar {
-            background-color: rgba(255, 255, 255, 0.95) !important;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .navbar-brand { font-weight: 800; letter-spacing: 1px; color: var(--primary-color) !important; }
-
-        /* Hero Section */
-        .hero-banner {
-            background: var(--bg-light);
-            padding: 80px 0;
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        /* Product Cards (Dozle Style) */
-        .product-card {
-            border: none;
-            transition: transform 0.2s;
-            margin-bottom: 30px;
-        }
-        .product-card:hover { transform: translateY(-5px); }
+        :root { --accent: #ff004c; --bg-yellow: #fff3c4; }
+        body { font-family: "Hiragino Sans", sans-serif; background: #fff; color: #333; }
         
-        .product-img {
-            aspect-ratio: 1 / 1;
-            background-color: #eee;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-            overflow: hidden;
-        }
+        /* Navbar */
+        .navbar { border-bottom: 2px solid #000; background: #fff; }
+        .nav-link { font-weight: bold; font-size: 0.9rem; }
 
-        .product-name { font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; height: 3rem; overflow: hidden; }
-        .product-price { font-weight: 700; color: #111; }
+        /* Pop Decor */
+        .section-title { position: relative; font-family: 'Arial Black', sans-serif; font-size: 2.5rem; text-align: center; margin-bottom: 40px; }
+        .section-icon { position: absolute; top: -20px; right: 10%; width: 50px; height: 50px; border: 2px solid #000; background: #fff; border-radius: 8px; }
 
-        .btn-buy {
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 50px;
-            padding: 8px 20px;
-            font-size: 0.8rem;
-            border: none;
-        }
+        /* Items */
+        .item-card { border: none; border-radius: 15px; overflow: hidden; background: #fff; transition: 0.2s; }
+        .item-img { aspect-ratio: 1/1; background: #f0f0f0; border: 2px solid #eee; border-radius: 15px; display: flex; align-items: center; justify-content: center; position: relative; }
+        .badge-coming { position: absolute; top: 10px; left: 10px; background: #000; color: #fff; padding: 5px 10px; font-weight: bold; font-size: 0.7rem; }
+        
+        /* Information Section */
+        .news-box { background: var(--bg-yellow); border-radius: 20px; padding: 40px 20px; margin-top: 50px; }
+        .news-list { background: #fff; border-radius: 15px; padding: 20px; }
+        .news-date { background: var(--accent); color: #fff; padding: 2px 10px; border-radius: 5px; font-size: 0.8rem; margin-right: 10px; }
 
-        /* Language Toggle */
-        .lang-switch { font-size: 0.8rem; cursor: pointer; border: 1px solid #ddd; padding: 2px 8px; border-radius: 4px; }
-
-        /* Shopping Cart Offcanvas */
-        .cart-item { border-bottom: 1px solid #eee; padding: 10px 0; }
+        /* Guide Buttons */
+        .guide-btn { border: 3px solid; border-radius: 12px; padding: 20px; font-weight: bold; text-align: center; display: block; text-decoration: none; position: relative; }
+        
+        /* Footer */
+        footer { background: #000; color: #fff; padding: 60px 20px; }
+        .footer-link { color: #fff; text-decoration: none; font-size: 0.8rem; margin: 0 10px; }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#" onclick="showPage('home')">SHINONOI STORE</a>
-            
-            <div class="d-flex align-items-center order-lg-last">
-                <span class="lang-switch me-3" onclick="toggleLang()" id="lang-btn">ENGLISH</span>
-                <button class="btn position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartDrawer">
-                    <i class="bi bi-cart3 fs-4"></i>
-                    <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
-                </button>
-                <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
-
-            <div class="collapse navbar-collapse" id="navNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('home')" data-t="nav_home">ホーム</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('products')" data-t="nav_products">商品一覧</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('about')" data-t="nav_about">当ユニットについて</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <main id="page-content">
-        <div id="home" class="page-section">
-            <div class="hero-banner">
-                <div class="container">
-                    <h1 class="display-5 fw-bold" data-t="hero_title">Creative Asset Store</h1>
-                    <p class="lead" data-t="hero_desc">システム開発とデザインが交差する場所</p>
-                </div>
-            </div>
-            <div class="container">
-                <h2 class="h4 mb-4" data-t="new_arrivals">新着アイテム</h2>
-                <div class="row" id="featured-products"></div>
-            </div>
-        </div>
-
-        <div id="products" class="page-section d-none">
-            <div class="container py-5">
-                <h2 class="mb-5" data-t="nav_products">商品一覧</h2>
-                <div class="row" id="all-products-grid"></div>
-            </div>
-        </div>
-
-        <div id="about" class="page-section d-none">
-            <div class="container py-5">
-                <h2 data-t="nav_about">当ユニットについて</h2>
-                <p class="mt-4" data-t="about_body">「篠ノ井乗務区」は、システム開発技術とクリエイティブデザインを融合させた架空のエンジニアリングユニットです。本ストアでは、私たちが開発したアセットやツールを配布しています。</p>
-            </div>
-        </div>
-    </main>
-
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartDrawer">
-        <div class="offcanvas-header border-bottom">
-            <h5 class="offcanvas-title" data-t="nav_cart">ショッピングカート</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div class="offcanvas-body">
-            <div id="cart-items-container"></div>
-            <div class="mt-4 pt-3 border-top">
-                <div class="d-flex justify-content-between fw-bold mb-3">
-                    <span data-t="total">合計</span>
-                    <span id="cart-total-price">¥0</span>
-                </div>
-                <button class="btn btn-primary w-100 py-3 fw-bold" data-t="checkout">購入手続きへ</button>
-            </div>
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">SHINONOI STORE</a>
+        <div class="d-flex align-items-center">
+            <button class="btn btn-outline-dark btn-sm me-2" onclick="toggleLang()" id="langBtn">ENGLISH</button>
+            <button class="btn border-0 position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartBox">
+                <i class="bi bi-cart3 fs-4"></i>
+                <span id="cartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+            </button>
         </div>
     </div>
+</nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<main class="container py-5">
+    
+    <div class="p-5 mb-5 bg-light rounded-5 text-center border">
+        <h2 data-t="hero">NEW ARRIVAL Assets</h2>
+    </div>
 
-    <script>
-        /* --- 翻訳データ --- */
-        const i18n = {
-            ja: {
-                nav_home: "ホーム", nav_products: "商品一覧", nav_about: "当ユニットについて", nav_cart: "カート",
-                hero_title: "Creative Asset Store", hero_desc: "システム開発とデザインが交差する場所",
-                new_arrivals: "新着アイテム", total: "合計", checkout: "購入手続きへ", add_cart: "カートに入れる"
-            },
-            en: {
-                nav_home: "Home", nav_products: "Products", nav_about: "About Us", nav_cart: "Shopping Cart",
-                hero_title: "Creative Asset Store", hero_desc: "Where system development meets design.",
-                new_arrivals: "New Arrivals", total: "Total", checkout: "Checkout", add_cart: "Add to Cart"
-            }
-        };
+    <div class="row g-3 mb-5">
+        <div class="col-6 col-md-3"><a href="#" class="guide-btn border-primary text-primary" data-t="g_reg">会員登録</a></div>
+        <div class="col-6 col-md-3"><a href="#" class="guide-btn border-warning text-warning" data-t="g_guide">ご利用ガイド</a></div>
+        <div class="col-6 col-md-3"><a href="#" class="guide-btn border-info text-info" data-t="g_faq">よくある質問</a></div>
+        <div class="col-6 col-md-3"><a href="#" class="guide-btn border-danger text-danger" data-t="g_info">お知らせ</a></div>
+    </div>
 
-        /* --- 商品データ --- */
-        const products = [
-            { id: 1, name: "Data Viz Component Pack", price: 3500, category: "Dev" },
-            { id: 2, name: "Geometric UI Shapes Vol.1", price: 1200, category: "Design" },
-            { id: 3, name: "React Template - Depot", price: 5000, category: "Dev" },
-            { id: 4, name: "Video Overlay Assets", price: 2800, category: "Edit" }
-        ];
+    <div class="section-title">NEW GOODS <span class="section-icon">📦</span></div>
+    <div class="row g-4" id="itemList"></div>
 
-        let currentLang = localStorage.getItem('shinonoi_lang') || 'ja';
-        let cart = JSON.parse(localStorage.getItem('shinonoi_cart')) || [];
+    <div class="news-box">
+        <div class="section-title">INFORMATION <span class="section-icon">🔔</span></div>
+        <div class="news-list" id="newsList"></div>
+    </div>
 
-        /* --- 言語・ページ管理 --- */
-        function toggleLang() {
-            currentLang = (currentLang === 'ja') ? 'en' : 'ja';
-            localStorage.setItem('shinonoi_lang', currentLang);
-            updateUI();
+</main>
+
+<footer class="text-center">
+    <div class="mb-4">
+        <a href="#" class="footer-link" data-t="f1">利用規約</a>
+        <a href="#" class="footer-link" data-t="f2">プライバシーポリシー</a>
+        <a href="#" class="footer-link" data-t="f3">会社概要</a>
+    </div>
+    <h3 class="fw-bold mb-4">SHINONOI DEPOT</h3>
+    <div class="fs-2 mb-4">
+        <i class="bi bi-twitter-x mx-2"></i><i class="bi bi-youtube mx-2"></i><i class="bi bi-instagram mx-2"></i>
+    </div>
+    <p class="small text-secondary">&copy; SHINONOI DEPOT Corp.</p>
+</footer>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartBox">
+    <div class="offcanvas-header border-bottom">
+        <h5 class="offcanvas-title" data-t="g_cart">カート</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body" id="cartBody"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const i18n = {
+        ja: {
+            hero: "新作アセット登場", g_reg: "会員登録", g_guide: "ご利用ガイド", g_faq: "よくある質問", g_info: "お知らせ",
+            g_cart: "カート", f1: "利用規約", f2: "プライバシーポリシー", f3: "会社概要", add: "カートに入れる",
+            coming: "近日発売", empty: "カートは空です"
+        },
+        en: {
+            hero: "NEW ASSETS AVAILABLE", g_reg: "Register", g_guide: "Guide", g_faq: "FAQ", g_info: "News",
+            g_cart: "Cart", f1: "Terms", f2: "Privacy", f3: "Company", add: "Add to Cart",
+            coming: "COMING SOON", empty: "Cart is empty"
         }
+    };
 
-        function showPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(s => s.classList.add('d-none'));
-            document.getElementById(pageId).classList.remove('d-none');
-            window.scrollTo(0, 0);
-        }
+    const items = [
+        { id: 1, name: {ja:"開発者用ツールパック", en:"Dev Tool Pack"}, price: 3000, status: "sale" },
+        { id: 2, name: {ja:"限定UIアセット Vol.2", en:"Limited UI Vol.2"}, price: 1500, status: "coming" },
+        { id: 3, name: {ja:"システム構成図テンプレート", en:"Architecture Template"}, price: 2000, status: "sale" }
+    ];
 
-        function updateUI() {
-            document.querySelectorAll('[data-t]').forEach(el => {
-                const key = el.getAttribute('data-t');
-                el.textContent = i18n[currentLang][key] || key;
-            });
-            document.getElementById('lang-btn').textContent = (currentLang === 'ja') ? 'ENGLISH' : '日本語';
-            renderProducts();
-            renderCart();
-        }
+    const news = [
+        { date: "2026.05.19", text: {ja:"2026年度「新作グッズ」販売開始のお知らせ", en:"Notice of 2026 New Goods Sale"} },
+        { date: "2026.04.10", text: {ja: "ゴールデンウィーク休業のお知らせ", en: "Golden Week Holiday Notice"} }
+    ];
 
-        /* --- 商品・カート管理 --- */
-        function renderProducts() {
-            const grids = ['featured-products', 'all-products-grid'];
-            grids.forEach(id => {
-                const container = document.getElementById(id);
-                if (!container) return;
-                container.innerHTML = products.map(p => `
-                    <div class="col-6 col-md-4 col-lg-3">
-                        <div class="product-card">
-                            <div class="product-img"><i class="bi bi-box-seam fs-1 text-muted"></i></div>
-                            <div class="product-name">${p.name}</div>
-                            <div class="product-price">¥${p.price.toLocaleString()}</div>
-                            <button class="btn btn-buy mt-2 w-100" onclick="addToCart(${p.id})">
-                                ${i18n[currentLang].add_cart}
-                            </button>
-                        </div>
+    let lang = localStorage.getItem('s_lang') || 'ja';
+    let cart = JSON.parse(localStorage.getItem('s_cart')) || [];
+
+    function updateUI() {
+        document.querySelectorAll('[data-t]').forEach(el => {
+            const key = el.getAttribute('data-t');
+            el.textContent = i18n[lang][key];
+        });
+        document.getElementById('langBtn').textContent = lang === 'ja' ? 'ENGLISH' : '日本語';
+        renderItems();
+        renderNews();
+        renderCart();
+    }
+
+    function toggleLang() { lang = lang === 'ja' ? 'en' : 'ja'; localStorage.setItem('s_lang', lang); updateUI(); }
+
+    function renderItems() {
+        document.getElementById('itemList').innerHTML = items.map(p => `
+            <div class="col-6 col-md-4">
+                <div class="item-card">
+                    <div class="item-img">
+                        ${p.status === 'coming' ? `<span class="badge-coming">${i18n[lang].coming}</span>` : ''}
+                        <i class="bi bi-box-seam display-1 text-secondary"></i>
                     </div>
-                `).join('');
-            });
-        }
-
-        function addToCart(id) {
-            const product = products.find(p => p.id === id);
-            cart.push(product);
-            saveCart();
-            renderCart();
-            // トースト通知の代わりに簡易的なアラート
-            const offcanvas = new bootstrap.Offcanvas(document.getElementById('cartDrawer'));
-            offcanvas.show();
-        }
-
-        function saveCart() {
-            localStorage.setItem('shinonoi_cart', JSON.stringify(cart));
-            document.getElementById('cart-count').textContent = cart.length;
-        }
-
-        function renderCart() {
-            const container = document.getElementById('cart-items-container');
-            if (cart.length === 0) {
-                container.innerHTML = '<p class="text-center py-5 text-muted">No items in cart.</p>';
-                document.getElementById('cart-total-price').textContent = '¥0';
-                return;
-            }
-            container.innerHTML = cart.map((item, index) => `
-                <div class="cart-item d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="small fw-bold">${item.name}</div>
-                        <div class="small text-muted">¥${item.price.toLocaleString()}</div>
+                    <div class="p-2">
+                        <div class="fw-bold small">${p.name[lang]}</div>
+                        <div class="fw-bold">¥${p.price.toLocaleString()}</div>
+                        <button class="btn btn-outline-danger btn-sm w-100 mt-2" onclick="addToCart(${p.id})" ${p.status === 'coming' ? 'disabled' : ''}>
+                            ${p.status === 'coming' ? i18n[lang].coming : i18n[lang].add}
+                        </button>
                     </div>
-                    <button class="btn btn-sm text-danger" onclick="removeFromCart(${index})">
-                        <i class="bi bi-trash"></i>
-                    </button>
                 </div>
-            `).join('');
-            
-            const total = cart.reduce((sum, i) => sum + i.price, 0);
-            document.getElementById('cart-total-price').textContent = `¥${total.toLocaleString()}`;
-        }
+            </div>
+        `).join('');
+    }
 
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            saveCart();
-            renderCart();
-        }
+    function renderNews() {
+        document.getElementById('newsList').innerHTML = news.map(n => `
+            <div class="py-2 border-bottom">
+                <span class="news-date">${n.date}</span>
+                <span class="small fw-bold">${n.text[lang]}</span>
+            </div>
+        `).join('');
+    }
 
-        // 初期化
-        updateUI();
-        document.getElementById('cart-count').textContent = cart.length;
+    function addToCart(id) {
+        cart.push(items.find(p => p.id === id));
+        saveCart();
+    }
 
-        // PWA Service Worker (前回作成したsw.jsを使用)
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
-        }
-    </script>
+    function saveCart() {
+        localStorage.setItem('s_cart', JSON.stringify(cart));
+        document.getElementById('cartCount').textContent = cart.length;
+        renderCart();
+    }
+
+    function renderCart() {
+        const body = document.getElementById('cartBody');
+        if (cart.length === 0) { body.innerHTML = `<p>${i18n[lang].empty}</p>`; return; }
+        body.innerHTML = cart.map((item, idx) => `
+            <div class="d-flex justify-content-between mb-2 small">
+                <span>${item.name[lang]}</span>
+                <span>¥${item.price} <i class="bi bi-x-circle text-danger" onclick="removeCart(${idx})"></i></span>
+            </div>
+        `).join('');
+    }
+
+    function removeCart(idx) { cart.splice(idx, 1); saveCart(); }
+
+    updateUI();
+    document.getElementById('cartCount').textContent = cart.length;
+</script>
 </body>
 </html>
