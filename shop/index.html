@@ -3,24 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHINONOI DEPOT</title>
+    <title>SHINONOI DEPOT | ALL-IN-ONE</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root { --primary: #005ce6; --nav-h: 70px; }
+        body { padding-top: var(--nav-h); background: #f8f9fa; font-family: sans-serif; }
+        .navbar { height: var(--nav-h); background: white !important; z-index: 1050; }
+        /* ページ切り替えアニメーション */
+        .page-section { display: none; animation: fadeIn 0.3s ease; }
+        .page-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .asset-card { background: white; border: 1px solid #ddd; border-radius: 12px; transition: 0.3s; height: 100%; overflow: hidden; }
+        .asset-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .cart-badge { position: absolute; top: -5px; right: -8px; background: #cc0000; color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 10px; }
+        .doc-box { background: white; padding: 40px; border-radius: 15px; border: 1px solid #eee; }
+        @media (max-width: 768px) { .doc-box { padding: 20px; } }
+    </style>
 </head>
 <body>
 
     <header class="navbar navbar-expand fixed-top border-bottom">
         <div class="container">
-            <button class="menu-trigger" data-bs-toggle="offcanvas" data-bs-target="#mainMenu">
-                <i class="bi bi-list"></i> <span class="fs-6 ms-1 d-none d-md-inline">MENU</span>
-            </button>
-
-            <a class="navbar-brand mx-auto fw-bold" href="index.html">SHINONOI DEPOT</a>
-
+            <button class="btn border-0 fs-4" data-bs-toggle="offcanvas" data-bs-target="#menu"><i class="bi bi-list"></i></button>
+            <a class="navbar-brand fw-bold" href="#" onclick="spa.go('home')">SHINONOI DEPOT</a>
             <div class="d-flex align-items-center gap-3">
-                <button id="langBtn" class="btn btn-sm btn-outline-dark lang-btn" onclick="app.langToggle()">EN</button>
-                <button class="cart-trigger" data-bs-toggle="offcanvas" data-bs-target="#cartDrawer">
+                <button id="langBtn" class="btn btn-sm btn-outline-dark rounded-pill" onclick="spa.toggleLang()">EN</button>
+                <button class="position-relative border-0 bg-transparent" data-bs-toggle="offcanvas" data-bs-target="#cart">
                     <i class="bi bi-bag-fill fs-4"></i>
                     <span id="cartBadge" class="cart-badge">0</span>
                 </button>
@@ -28,26 +37,26 @@
         </div>
     </header>
 
-    <div class="offcanvas offcanvas-start" id="mainMenu" tabindex="-1">
+    <div class="offcanvas offcanvas-start" id="menu" tabindex="-1">
         <div class="offcanvas-header border-bottom">
-            <h5 class="fw-bold">MENU</h5>
+            <h5 class="fw-bold m-0">MENU</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body p-0">
             <div class="list-group list-group-flush fw-bold">
-                <a href="index.html" class="list-group-item list-group-item-action py-3"><i class="bi bi-house-door me-2"></i> <span data-t="home">ホーム</span></a>
-                <a href="catalog.html" class="list-group-item list-group-item-action py-3"><i class="bi bi-grid me-2"></i> <span data-t="items">配布物</span></a>
-                <a href="exclusive.html" class="list-group-item list-group-item-action py-3 text-primary"><i class="bi bi-star-fill me-2"></i> <span data-t="excl">限定ページ</span></a>
-                <a href="guide.html" class="list-group-item list-group-item-action py-3"><i class="bi bi-info-circle me-2"></i> <span data-t="guide">ガイド</span></a>
-                <a href="contact.html" class="list-group-item list-group-item-action py-3"><i class="bi bi-envelope me-2"></i> <span data-t="contact">お問い合わせ</span></a>
+                <a href="#" class="list-group-item list-group-item-action py-3" onclick="spa.go('home')"><i class="bi bi-house me-2"></i> <span data-t="home">ホーム</span></a>
+                <a href="#" class="list-group-item list-group-item-action py-3" onclick="spa.go('catalog')"><i class="bi bi-grid me-2"></i> <span data-t="items">配布物</span></a>
+                <a href="#" class="list-group-item list-group-item-action py-3 text-primary" onclick="spa.go('exclusive')"><i class="bi bi-star-fill me-2"></i> <span data-t="excl">限定ページ</span></a>
+                <a href="#" class="list-group-item list-group-item-action py-3" onclick="spa.go('guide')"><i class="bi bi-info-circle me-2"></i> <span data-t="guide">ガイド</span></a>
+                <a href="#" class="list-group-item list-group-item-action py-3" onclick="spa.go('contact')"><i class="bi bi-envelope me-2"></i> <span data-t="contact">お問い合わせ</span></a>
                 <hr class="m-0">
-                <a href="legal.html" class="list-group-item list-group-item-action small py-2 text-muted" data-t="legal">特定商取引法</a>
-                <a href="terms.html" class="list-group-item list-group-item-action small py-2 text-muted" data-t="terms">利用規約</a>
+                <a href="#" class="list-group-item list-group-item-action small py-2 text-muted" onclick="spa.go('legal')" data-t="legal">特定商取引法</a>
+                <a href="#" class="list-group-item list-group-item-action small py-2 text-muted" onclick="spa.go('terms')" data-t="terms">利用規約</a>
             </div>
         </div>
     </div>
 
-    <div class="offcanvas offcanvas-end" id="cartDrawer" tabindex="-1">
+    <div class="offcanvas offcanvas-end" id="cart" tabindex="-1">
         <div class="offcanvas-header border-bottom">
             <h5 class="fw-bold" data-t="cart">ダウンロードリスト</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
@@ -58,15 +67,136 @@
         </div>
     </div>
 
-    <main class="container py-5 mt-4">
-        <div class="text-center py-5">
-            <h1 class="display-4 fw-bold mb-3" data-t="home">SHINONOI DEPOT</h1>
-            <p class="lead" data-t="home">Professional assets distribution hub.</p>
-            <button class="btn btn-dark mt-3" onclick="app.sendMail()" data-t="mail">メールでお問い合わせ</button>
-        </div>
+    <main class="container py-5" id="main">
+        
+        <section id="view-home" class="page-section active text-center">
+            <div class="py-5 bg-white rounded-5 border mb-5">
+                <h1 class="display-4 fw-bold">SHINONOI DEPOT</h1>
+                <p class="lead" data-t="hero">次世代アセットを、全てのクリエイターへ。</p>
+                <button class="btn btn-primary btn-lg rounded-pill" onclick="spa.go('catalog')">カタログを見る</button>
+            </div>
+        </section>
+
+        <section id="view-catalog" class="page-section">
+            <h2 class="fw-bold mb-4" data-t="items">配布物一覧</h2>
+            <div class="row g-4" id="grid"></div>
+        </section>
+
+        <section id="view-auth" class="page-section text-center">
+            <div class="doc-box mx-auto shadow-lg" style="max-width: 400px;">
+                <i class="bi bi-shield-lock display-1 text-primary"></i>
+                <h2 class="fw-bold mt-3">要認証</h2>
+                <input type="password" id="pw" class="form-control my-3 text-center" placeholder="Code">
+                <button class="btn btn-primary w-100 py-2 rounded-pill" onclick="spa.verify()">解除</button>
+            </div>
+        </section>
+
+        <section id="view-exclusive" class="page-section">
+            <div class="alert alert-dark rounded-4">招待者専用エリア</div>
+            <div class="row g-4" id="excl-grid"></div>
+        </section>
+
+        <section id="view-guide" class="page-section"><div class="doc-box"><h3>ガイド</h3><p>ここに使い方の説明が入ります。</p></div></section>
+        <section id="view-legal" class="page-section"><div class="doc-box"><h3>特定商取引法</h3><p>運営：篠ノ井乗務区</p></div></section>
+        <section id="view-terms" class="page-section"><div class="doc-box"><h3>利用規約</h3><p>再配布は禁止です。</p></div></section>
+
+        <section id="view-contact" class="page-section text-center">
+            <div class="doc-box">
+                <h2 data-t="contact">お問い合わせ</h2>
+                <p>ご相談はメールにて承ります。</p>
+                <button class="btn btn-dark px-5 py-3 rounded-pill fw-bold" onclick="spa.mail()"><i class="bi bi-envelope-at me-2"></i>メールを起動する</button>
+            </div>
+        </section>
+
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="app.js"></script>
+    <script>
+        const spa = {
+            lang: 'ja',
+            cart: [],
+            isAuth: false,
+            dict: {
+                ja: { home:"ホーム", items:"配布物", excl:"限定ページ", guide:"ガイド", contact:"お問い合わせ", legal:"特定商取引法", terms:"規約", cart:"リスト", hero:"次世代アセットを、全てのクリエイターへ。" },
+                en: { home:"Home", items:"Assets", excl:"Exclusive", guide:"Guide", contact:"Contact", legal:"Legal", terms:"Terms", cart:"List", hero:"High-quality assets for everyone." }
+            },
+            items: [
+                {id:1, name:"Core System v2", excl:false},
+                {id:2, name:"UI Framework", excl:false},
+                {id:3, name:"Premium Logic", excl:true}
+            ],
+
+            init() {
+                this.renderGrid();
+                this.renderUI();
+            },
+
+            go(id) {
+                if(id === 'exclusive' && !this.isAuth) { id = 'auth'; }
+                document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+                document.getElementById('view-' + id).classList.add('active');
+                bootstrap.Offcanvas.getInstance(document.getElementById('menu'))?.hide();
+                window.scrollTo(0,0);
+            },
+
+            renderGrid() {
+                const draw = (elId, filter) => {
+                    const el = document.getElementById(elId);
+                    el.innerHTML = this.items.filter(filter).map(i => `
+                        <div class="col-6 col-md-4">
+                            <div class="asset-card p-3 d-flex flex-column">
+                                <div class="bg-light rounded mb-2 d-flex align-items-center justify-content-center" style="height:120px"><i class="bi bi-file-earmark-zip fs-1"></i></div>
+                                <h6 class="fw-bold small">${i.name}</h6>
+                                <button class="btn btn-primary btn-sm mt-auto rounded-pill" onclick="spa.add(${i.id},'${i.name}')">リストに追加</button>
+                            </div>
+                        </div>
+                    `).join('');
+                };
+                draw('grid', i => !i.excl);
+                draw('excl-grid', i => i.excl);
+            },
+
+            add(id, name) {
+                if(!this.cart.find(c => c.id === id)) {
+                    this.cart.push({id, name});
+                    document.getElementById('cartBadge').textContent = this.cart.length;
+                    this.renderCart();
+                    alert("Added!");
+                }
+            },
+
+            renderCart() {
+                document.getElementById('cartItems').innerHTML = this.cart.map((c,idx) => `
+                    <div class="d-flex justify-content-between mb-2 p-2 bg-light rounded">
+                        <span class="small">${c.name}</span>
+                        <button class="btn btn-sm text-danger" onclick="spa.remove(${idx})">×</button>
+                    </div>
+                `).join('');
+            },
+
+            remove(idx) { this.cart.splice(idx,1); document.getElementById('cartBadge').textContent = this.cart.length; this.renderCart(); },
+
+            verify() {
+                if(document.getElementById('pw').value === 'SHINO2026') {
+                    this.isAuth = true;
+                    this.go('exclusive');
+                } else { alert("Invalid Code"); }
+            },
+
+            toggleLang() {
+                this.lang = this.lang === 'ja' ? 'en' : 'ja';
+                this.renderUI();
+            },
+
+            renderUI() {
+                const d = this.dict[this.lang];
+                document.querySelectorAll('[data-t]').forEach(el => el.textContent = d[el.getAttribute('data-t')]);
+                document.getElementById('langBtn').textContent = this.lang === 'ja' ? 'ENGLISH' : '日本語';
+            },
+
+            mail() { window.location.href = "mailto:support@example.com?subject=Inquiry"; }
+        };
+        spa.init();
+    </script>
 </body>
 </html>
