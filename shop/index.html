@@ -1,129 +1,130 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHINONOI STORE | Official Depot</title>
+    <meta name="description" content="SHINONOI DEPOT - Professional Digital Asset Storage">
+    <title>SHINONOI DEPOT | Official</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1a1a1a">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style.css">
-    <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg fixed-top shadow-sm bg-white">
+    <a href="#main-content" class="visually-hidden-focusable">メインコンテンツへ移動</a>
+
+    <header class="navbar navbar-expand-lg fixed-top shadow-sm bg-white" role="banner">
         <div class="container">
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#sideMenu">
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#sideNavigation" aria-controls="sideNavigation" aria-label="メニューを開く">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand fw-bold" href="#" onclick="showPage('home')">SHINONOI STORE</a>
-            <div class="d-flex align-items-center">
-                <button class="btn btn-outline-dark btn-sm me-3" onclick="toggleLang()" id="langBtn">ENGLISH</button>
-                <div class="cart-icon" data-bs-toggle="offcanvas" data-bs-target="#cartBox">
-                    <i class="bi bi-cart3 fs-4"></i>
-                    <span id="cartCount" class="badge">0</span>
+            <a class="navbar-brand fw-bold" href="#" onclick="navigateTo('home')">SHINONOI DEPOT</a>
+            
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-outline-secondary btn-sm" onclick="app.toggleLanguage()" id="langBtn" aria-label="言語切り替え">ENGLISH</button>
+                <div class="cart-trigger" data-bs-toggle="offcanvas" data-bs-target="#cartDrawer" role="button" aria-label="ダウンロードリスト">
+                    <i class="bi bi-box-seam-fill fs-4"></i>
+                    <span id="cartBadge" class="badge rounded-pill bg-danger">0</span>
                 </div>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <div class="offcanvas offcanvas-start" id="sideMenu">
+    <nav class="offcanvas offcanvas-start" id="sideNavigation" aria-labelledby="sideMenuLabel">
         <div class="offcanvas-header border-bottom">
-            <h5 class="fw-bold">UNIT MENU</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+            <h5 id="sideMenuLabel" class="fw-bold">NAVIGATION</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="閉じる"></button>
         </div>
         <div class="offcanvas-body">
-            <ul class="nav flex-column gap-2">
-                <li><a class="nav-link" href="#" onclick="showPage('home')" data-t="nav_home">ホーム</a></li>
-                <li><a class="nav-link" href="#" onclick="showPage('all-products')" data-t="nav_products">商品一覧</a></li>
-                <li><a class="nav-link" href="#" onclick="showPage('guide')" data-t="nav_guide">ご利用ガイド</a></li>
-                <li><a class="nav-link" href="#" onclick="showPage('contact')" data-t="nav_contact">お問い合わせ</a></li>
+            <ul class="navbar-nav gap-3">
+                <li class="nav-item"><a class="nav-link fw-bold" href="#" onclick="navigateTo('home')" data-t="nav_home">ホーム</a></li>
+                <li class="nav-item"><a class="nav-link fw-bold" href="#" onclick="navigateTo('catalog')" data-t="nav_catalog">配布物一覧</a></li>
+                <li class="nav-item"><a class="nav-link fw-bold" href="#" onclick="navigateTo('guide')" data-t="nav_guide">ご利用ガイド</a></li>
+                <li class="nav-item"><a class="nav-link fw-bold" href="#" onclick="navigateTo('contact')" data-t="nav_contact">お問い合わせ</a></li>
                 <hr>
-                <li><a class="nav-link small text-secondary" href="#" onclick="showPage('legal')" data-t="f_legal">特定商取引法</a></li>
-                <li><a class="nav-link small text-secondary" href="#" onclick="showPage('terms')" data-t="f_terms">利用規約</a></li>
-                <li><a class="nav-link small text-secondary" href="#" onclick="showPage('privacy')" data-t="f_privacy">プライバシー</a></li>
+                <li class="nav-item"><a class="nav-link small text-secondary" href="#" onclick="navigateTo('legal')" data-t="nav_legal">特定商取引法</a></li>
+                <li class="nav-item"><a class="nav-link small text-secondary" href="#" onclick="navigateTo('terms')" data-t="nav_terms">利用規約</a></li>
             </ul>
         </div>
-    </div>
+    </nav>
 
-    <main class="container py-4">
-        
-        <section id="home" class="page-section">
-            <div class="hero-banner mb-5 text-center p-5 rounded-5 border bg-light">
-                <h1 class="display-4 fw-bold" data-t="hero_title">NEW ARRIVALS</h1>
-                <p class="lead">System Assets & Creative Tools</p>
+    <main id="main-content" class="container py-5">
+        <section id="view-home" class="page-view active">
+            <div class="hero-section text-center p-5 mb-5 rounded-4 shadow-sm">
+                <h1 class="display-4 fw-bold mb-3" data-t="hero_h">Digital Library</h1>
+                <p class="lead text-muted mb-4" data-t="hero_p">エンジニアリングとデザインの資産を無償提供します</p>
             </div>
-            <div class="section-title">FEATURED ITEMS <span class="section-icon">📦</span></div>
-            <div class="row g-4 mb-5" id="featuredList"></div>
-            <div class="news-box">
-                <div class="section-title">INFORMATION <span class="section-icon">🔔</span></div>
-                <div class="news-list" id="newsList"></div>
-            </div>
+            <div class="row g-4" id="featuredItems"></div>
         </section>
 
-        <section id="all-products" class="page-section d-none">
-            <div class="section-title">ALL PRODUCTS <span class="section-icon">🔍</span></div>
-            <div class="row g-4" id="allProductList"></div>
+        <section id="view-catalog" class="page-view">
+            <h2 class="section-header mb-4" data-t="nav_catalog">配布物一覧</h2>
+            <div class="row g-4" id="allProductGrid"></div>
         </section>
 
-        <section id="guide" class="page-section d-none">
-            <div class="section-title">GUIDE <span class="section-icon">📖</span></div>
-            <div class="bg-light p-4 rounded-4" id="guide-content"></div>
+        <section id="view-guide" class="page-view">
+            <h2 class="section-header mb-4" data-t="nav_guide">ご利用ガイド</h2>
+            <div class="card p-4 border-0 shadow-sm bg-light rounded-4" id="guideText"></div>
         </section>
 
-        <section id="contact" class="page-section d-none">
-            <div class="section-title">CONTACT <span class="section-icon">📩</span></div>
-            <div class="card p-4 border-0 bg-light rounded-4">
-                <div class="mb-3"><label class="form-label fw-bold">Email</label><input type="email" class="form-control"></div>
-                <div class="mb-3"><label class="form-label fw-bold">Message</label><textarea class="form-control" rows="5"></textarea></div>
-                <button class="btn btn-dark w-100 py-3 fw-bold rounded-pill">SEND</button>
-            </div>
+        <section id="view-contact" class="page-view">
+            <h2 class="section-header mb-4" data-t="nav_contact">お問い合わせ</h2>
+            <form class="card p-4 shadow-sm border-0 rounded-4">
+                <div class="mb-3"><label class="form-label fw-bold">Email</label><input type="email" class="form-control" required></div>
+                <div class="mb-3"><label class="form-label fw-bold">Message</label><textarea class="form-control" rows="5" required></textarea></div>
+                <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-pill">SEND MESSAGE</button>
+            </form>
         </section>
 
-        <section id="legal" class="page-section d-none">
-            <div class="section-title">LEGAL NOTICE <span class="section-icon">🏢</span></div>
-            <div class="legal-doc p-4 border rounded-4 bg-white shadow-sm" id="legal-content"></div>
+        <section id="view-legal" class="page-view">
+            <h2 class="section-header mb-4" data-t="nav_legal">特定商取引法</h2>
+            <div class="card p-4 border-0 shadow-sm bg-white rounded-4" id="legalContent"></div>
+        </section>
+        <section id="view-terms" class="page-view">
+            <h2 class="section-header mb-4" data-t="nav_terms">利用規約</h2>
+            <div class="card p-4 border-0 shadow-sm bg-white rounded-4" id="termsContent"></div>
         </section>
 
-        <section id="terms" class="page-section d-none">
-            <div class="section-title">TERMS <span class="section-icon">⚖️</span></div>
-            <div class="legal-doc p-4 border rounded-4 bg-white shadow-sm" id="terms-content"></div>
-        </section>
-        <section id="privacy" class="page-section d-none">
-            <div class="section-title">PRIVACY <span class="section-icon">🔒</span></div>
-            <div class="legal-doc p-4 border rounded-4 bg-white shadow-sm" id="privacy-content"></div>
-        </section>
-
-        <section id="invite-auth" class="page-section d-none">
-            <div class="card p-5 text-center bg-light border-0">
-                <h2 data-t="invite_title">Exclusive Access</h2>
-                <div class="input-group my-4 mx-auto" style="max-width: 300px;">
-                    <input type="password" id="inviteInput" class="form-control" placeholder="Code">
-                    <button class="btn btn-dark" onclick="verifyInvite()" data-t="unlock">Unlock</button>
+        <section id="view-auth" class="page-view">
+            <div class="container text-center py-5">
+                <div class="card p-5 border-0 shadow-lg rounded-4 bg-light mx-auto" style="max-width: 500px;">
+                    <i class="bi bi-shield-lock display-1 text-primary mb-4"></i>
+                    <h2 data-t="auth_title">Exclusive Access</h2>
+                    <p data-t="auth_desc">このコンテンツは招待コードが必要です</p>
+                    <div class="input-group my-4">
+                        <input type="password" id="inviteCode" class="form-control form-control-lg" placeholder="Enter Code">
+                        <button class="btn btn-primary" onclick="app.verifyCode()" data-t="auth_unlock">解除</button>
+                    </div>
+                    <button class="btn btn-link text-secondary" onclick="navigateTo('home')">Return Home</button>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="bg-black text-white py-5 mt-5">
+    <footer class="bg-dark text-white py-5 mt-5">
         <div class="container text-center">
-            <h3 class="fw-bold mb-4">SHINONOI DEPOT</h3>
-            <p class="small opacity-50">&copy; 2026 SHINONOI DEPOT Corp. All Rights Reserved.</p>
+            <h3 class="fw-bold mb-3">SHINONOI DEPOT</h3>
+            <p class="small text-secondary mb-4">Professional Distribution Hub for Creative Assets.</p>
+            <div class="d-flex justify-content-center gap-4 fs-3 mb-4">
+                <i class="bi bi-twitter-x"></i><i class="bi bi-github"></i><i class="bi bi-discord"></i>
+            </div>
+            <p class="small text-secondary">&copy; 2026 SHINONOI DEPOT. All Rights Reserved.</p>
         </div>
     </footer>
 
-    <div class="offcanvas offcanvas-end" id="cartBox">
+    <div class="offcanvas offcanvas-end" id="cartDrawer" tabindex="-1">
         <div class="offcanvas-header border-bottom">
-            <h5 class="fw-bold" data-t="nav_cart">Cart</h5>
+            <h5 class="fw-bold" data-t="nav_cart">ダウンロードリスト</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body d-flex flex-column">
             <div id="cartItems" class="flex-grow-1"></div>
             <div class="border-top pt-3">
-                <div class="d-flex justify-content-between fw-bold mb-3">
-                    <span data-t="total">Total</span><span id="cartTotal">¥0</span>
-                </div>
-                <button class="btn btn-danger w-100 py-3 fw-bold rounded-pill" onclick="startCheckout()" id="checkoutBtn">PAY WITH STRIPE</button>
+                <button class="btn btn-primary w-100 py-3 fw-bold rounded-pill" onclick="app.processDownload()" data-t="dl_btn">一括ダウンロード</button>
             </div>
         </div>
     </div>
