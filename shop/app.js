@@ -1,85 +1,71 @@
-/**
- * SHINONOI DEPOT Core JS
- * マルチページ間でのデータ整合性と、限定ページの認証を管理
- */
-
 const app = {
-    // 1. 限定ページのパスワード
-    AUTH_CODE: "SHINO2026",
+    // 招待コード
+    INVITE_CODE: "SHINO2026",
 
     init() {
         this.updateCartBadge();
-        this.checkAccess();
-        this.renderHomeGrid();
-        this.registerSW();
+        this.setupAuth();
+        this.renderCatalog();
+        this.renderDetail();
     },
 
-    // 2. 認証チェックロジック (exclusive.htmlで動作)
-    checkAccess() {
+    // 限定ページアクセス制御
+    setupAuth() {
         if (window.location.pathname.includes('exclusive.html')) {
-            const isAuth = sessionStorage.getItem('depot_verified');
-            if (!isAuth) {
+            if (sessionStorage.getItem('shinonoi_auth') !== 'true') {
                 window.location.href = 'auth.html';
             }
         }
     },
 
-    // 3. 限定ページ解除
+    // 認証実行
     verify() {
-        const input = document.getElementById('passInput').value;
-        if (input === this.AUTH_CODE) {
-            sessionStorage.setItem('depot_verified', 'true');
+        const val = document.getElementById('passInput').value;
+        if (val === this.INVITE_CODE) {
+            sessionStorage.setItem('shinonoi_auth', 'true');
             window.location.href = 'exclusive.html';
         } else {
-            document.getElementById('errMsg').classList.remove('d-none');
+            alert("コードが正しくありません");
         }
     },
 
-    // 4. カート管理
-    addToCart(id) {
-        let cart = JSON.parse(localStorage.getItem('depot_cart') || '[]');
+    // カート機能
+    add(id) {
+        let cart = JSON.parse(localStorage.getItem('shinonoi_cart') || '[]');
         if (!cart.includes(id)) {
             cart.push(id);
-            localStorage.setItem('depot_cart', JSON.stringify(cart));
+            localStorage.setItem('shinonoi_cart', JSON.stringify(cart));
             this.updateCartBadge();
             alert("ダウンロードリストに追加しました");
         }
     },
 
     updateCartBadge() {
-        const cart = JSON.parse(localStorage.getItem('depot_cart') || '[]');
+        const cart = JSON.parse(localStorage.getItem('shinonoi_cart') || '[]');
         const badge = document.getElementById('cartBadge');
         if (badge) badge.textContent = cart.length;
     },
 
-    // 5. 動的描画（全ページ共通アイテム定義）
-    renderHomeGrid() {
-        const grid = document.getElementById('featuredGrid');
-        if (!grid) return;
-
+    // カタログ描画
+    renderCatalog() {
+        const el = document.getElementById('catalogGrid');
+        if (!el) return;
         const items = [
-            { id: 1, name: "System Core v2", tag: "FREE" },
-            { id: 2, name: "UI Framework", tag: "FREE" },
-            { id: 3, name: "Database Asset", tag: "FREE" }
+            {id:1, name:"System Core v2"}, {id:2, name:"UI Framework"},
+            {id:3, name:"Network Tool"}, {id:4, name:"Graphic Assets"}
         ];
-
-        grid.innerHTML = items.map(item => `
-            <div class="col-12 col-md-4">
-                <div class="asset-card p-3">
-                    <div class="asset-img mb-3"><i class="bi bi-file-earmark-code fs-1"></i></div>
-                    <span class="badge bg-dark mb-2" style="width:fit-content">${item.tag}</span>
-                    <h3 class="h6 fw-bold">${item.name}</h3>
-                    <button class="btn btn-outline-primary btn-sm mt-auto rounded-pill" onclick="app.addToCart(${item.id})">リストに追加</button>
+        el.innerHTML = items.map(i => `
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="asset-card">
+                    <div class="asset-img"><i class="bi bi-cpu"></i></div>
+                    <div class="p-3">
+                        <h3 class="h6 fw-bold">${i.name}</h3>
+                        <a href="item-detail.html?id=${i.id}" class="btn btn-outline-dark btn-sm w-100 rounded-pill mb-2">詳細</a>
+                        <button class="btn btn-primary btn-sm w-100 rounded-pill" onclick="app.add(${i.id})">入手する</button>
+                    </div>
                 </div>
             </div>
         `).join('');
-    },
-
-    registerSW() {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').catch(() => {});
-        }
     }
 };
-
 window.onload = () => app.init();
