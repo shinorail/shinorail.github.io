@@ -1,92 +1,56 @@
 :root {
-    --primary: #0056b3;
-    --accent: #ff0044;
-    --nav-h: 70px;
+    --primary: #005ce6;
+    --bg: #f8f9fa;
+    --nav-h: 72px;
 }
 
 body {
     padding-top: var(--nav-h);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: #fcfcfc;
-    color: #1a1a1a;
+    background-color: var(--bg);
+    color: #333;
+    font-family: "Hiragino Sans", "Meiryo", sans-serif;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* ページ切り替えアニメーション */
-.page-view {
-    display: none;
-    animation: fadeIn 0.4s ease-in-out;
-}
-.page-view.active { display: block; }
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Amazon風の清潔感あるHero */
+/* Amazon風のクリーンなカード設計 */
 .hero-section {
-    background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #eef6ff 100%);
     border: 1px solid rgba(0,0,0,0.05);
 }
 
-/* 商品カード：スマホでも崩れないFlex管理 */
-.item-card {
-    border: 1px solid #eee;
+.asset-card {
     background: #fff;
-    border-radius: 16px;
-    overflow: hidden;
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    transition: 0.25s ease-in-out;
     height: 100%;
-    transition: box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
-.item-card:hover { box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+.asset-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    border-color: var(--primary);
+}
 
-.item-img {
-    background: #f8f9fa;
-    aspect-ratio: 16 / 9;
+.asset-img {
+    aspect-ratio: 16/9;
+    background-color: #f1f3f5;
+    border-radius: 12px 12px 0 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
 }
 
-.item-badge {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    font-size: 0.65rem;
-    font-weight: 800;
-    padding: 4px 10px;
-    background: #000;
-    color: #fff;
-    border-radius: 4px;
+/* モバイルでのズレを許さない設定 */
+@media (max-width: 768px) {
+    .navbar-brand { font-size: 1.1rem; }
+    .hero-section { padding: 40px 20px !important; }
+    .display-4 { font-size: 2.2rem; }
 }
 
-/* アクセシビリティ：フォーカス時の枠線 */
-.btn:focus, .form-control:focus {
-    box-shadow: 0 0 0 3px rgba(0,86,179,0.25);
-}
-
-/* 特定商取引法などのリーガルテーブル */
-.legal-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-.legal-table th {
-    background: #f8f9fa;
-    width: 30%;
-    padding: 15px;
-    border: 1px solid #eee;
-    font-size: 0.9rem;
-}
-.legal-table td {
-    padding: 15px;
-    border: 1px solid #eee;
-    font-size: 0.9rem;
-}
-
-/* モバイル最適化：横はみ出しを完全禁止 */
-@media (max-width: 576px) {
-    .container { padding-left: 20px; padding-right: 20px; }
-    .hero-section { padding: 30px 15px !important; }
-    .display-4 { font-size: 2rem; }
+/* アクセシビリティ：フォーカス可視化 */
+*:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 2px;
 }
