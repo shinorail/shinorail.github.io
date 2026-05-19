@@ -3,68 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="SHINONOI DEPOT - 鉄道・エンジニアリング資産のプロフェッショナル配布所">
-    <title>SHINONOI DEPOT | ホーム</title>
-    <link rel="manifest" href="manifest.json">
+    <title>SHINONOI DEPOT</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="navbar navbar-expand-lg fixed-top border-bottom bg-white shadow-sm" role="banner">
+
+    <header class="navbar navbar-expand fixed-top border-bottom">
         <div class="container">
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#navDrawer" aria-label="メニューを開く">
-                <span class="navbar-toggler-icon"></span>
+            <button class="menu-trigger" data-bs-toggle="offcanvas" data-bs-target="#mainMenu">
+                <i class="bi bi-list"></i> <span class="fs-6 ms-1 d-none d-md-inline">MENU</span>
             </button>
-            <a class="navbar-brand fw-bold text-dark" href="index.html">SHINONOI DEPOT</a>
+
+            <a class="navbar-brand mx-auto fw-bold" href="index.html">SHINONOI DEPOT</a>
+
             <div class="d-flex align-items-center gap-3">
-                <button class="btn btn-sm btn-light border" onclick="app.langToggle()">ENGLISH</button>
-                <div class="position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartBox" role="button">
-                    <i class="bi bi-box-seam-fill fs-4"></i>
-                    <span id="cartCount" class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle">0</span>
-                </div>
+                <button id="langBtn" class="btn btn-sm btn-outline-dark lang-btn" onclick="app.langToggle()">EN</button>
+                <button class="cart-trigger" data-bs-toggle="offcanvas" data-bs-target="#cartDrawer">
+                    <i class="bi bi-bag-fill fs-4"></i>
+                    <span id="cartBadge" class="cart-badge">0</span>
+                </button>
             </div>
         </div>
     </header>
 
-    <nav class="offcanvas offcanvas-start" id="navDrawer" tabindex="-1">
+    <div class="offcanvas offcanvas-start" id="mainMenu" tabindex="-1">
         <div class="offcanvas-header border-bottom">
-            <h5 class="fw-bold m-0">NAVIGATION</h5>
+            <h5 class="fw-bold">MENU</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body p-0">
-            <div class="list-group list-group-flush">
-                <a href="index.html" class="list-group-item list-group-item-action py-3 active">ホーム</a>
-                <a href="catalog.html" class="list-group-item list-group-item-action py-3">配布物一覧</a>
-                <a href="exclusive.html" class="list-group-item list-group-item-action py-3 text-primary fw-bold">限定ページ</a>
-                <a href="guide.html" class="list-group-item list-group-item-action py-3">ご利用ガイド</a>
-                <a href="contact.html" class="list-group-item list-group-item-action py-3">お問い合わせ</a>
+            <div class="list-group list-group-flush fw-bold">
+                <a href="index.html" class="list-group-item list-group-item-action py-3"><i class="bi bi-house-door me-2"></i> <span data-t="home">ホーム</span></a>
+                <a href="catalog.html" class="list-group-item list-group-item-action py-3"><i class="bi bi-grid me-2"></i> <span data-t="items">配布物</span></a>
+                <a href="exclusive.html" class="list-group-item list-group-item-action py-3 text-primary"><i class="bi bi-star-fill me-2"></i> <span data-t="excl">限定ページ</span></a>
+                <a href="guide.html" class="list-group-item list-group-item-action py-3"><i class="bi bi-info-circle me-2"></i> <span data-t="guide">ガイド</span></a>
+                <a href="contact.html" class="list-group-item list-group-item-action py-3"><i class="bi bi-envelope me-2"></i> <span data-t="contact">お問い合わせ</span></a>
                 <hr class="m-0">
-                <a href="legal.html" class="list-group-item list-group-item-action small py-2 text-muted">特定商取引法</a>
-                <a href="terms.html" class="list-group-item list-group-item-action small py-2 text-muted">利用規約</a>
-                <a href="privacy.html" class="list-group-item list-group-item-action small py-2 text-muted">プライバシーポリシー</a>
+                <a href="legal.html" class="list-group-item list-group-item-action small py-2 text-muted" data-t="legal">特定商取引法</a>
+                <a href="terms.html" class="list-group-item list-group-item-action small py-2 text-muted" data-t="terms">利用規約</a>
             </div>
         </div>
-    </nav>
+    </div>
 
-    <main id="main" class="container py-5">
-        <section class="hero-box text-center p-5 mb-5 rounded-5 shadow-sm bg-light border">
-            <h1 class="display-4 fw-bold mb-3">Professional Asset Depot</h1>
-            <p class="lead text-muted mb-4">次世代のエンジニアリング資産を、全てのクリエイターへ。</p>
-            <div class="d-flex justify-content-center gap-3">
-                <a href="catalog.html" class="btn btn-primary btn-lg rounded-pill px-4">今すぐ探す</a>
-                <a href="guide.html" class="btn btn-outline-dark btn-lg rounded-pill px-4">使い方</a>
-            </div>
-        </section>
-        <h2 class="fw-bold mb-4 border-start border-4 border-primary ps-3">Featured Assets</h2>
-        <div class="row g-4" id="homeGrid"></div>
+    <div class="offcanvas offcanvas-end" id="cartDrawer" tabindex="-1">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="fw-bold" data-t="cart">ダウンロードリスト</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="cartItems"></div>
+            <button class="btn btn-primary w-100 py-3 mt-4 rounded-pill fw-bold">DOWNLOAD ALL</button>
+        </div>
+    </div>
+
+    <main class="container py-5 mt-4">
+        <div class="text-center py-5">
+            <h1 class="display-4 fw-bold mb-3" data-t="home">SHINONOI DEPOT</h1>
+            <p class="lead" data-t="home">Professional assets distribution hub.</p>
+            <button class="btn btn-dark mt-3" onclick="app.sendMail()" data-t="mail">メールでお問い合わせ</button>
+        </div>
     </main>
-
-    <footer class="bg-dark text-white py-5 mt-5">
-        <div class="container text-center">
-            <p class="small text-secondary mb-0">&copy; 2026 SHINONOI DEPOT. Designed for Professionals.</p>
-        </div>
-    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="app.js"></script>
