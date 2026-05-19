@@ -1,158 +1,179 @@
-// Stripe公開可能キー (本番時は自分のキーに差し替え)
-const stripe = Stripe('pk_test_your_key_here');
+/**
+ * SHINONOI DEPOT - Logic Core
+ */
 
-const i18n = {
-    ja: {
-        nav_home: "ホーム", nav_products: "商品一覧", nav_guide: "ご利用ガイド", nav_contact: "お問い合わせ",
-        nav_cart: "カート", hero_title: "新作アセット登場", total: "合計", f_legal: "特定商取引法",
-        f_terms: "利用規約", f_privacy: "プライバシーポリシー", unlock: "解除", invite_title: "招待者限定アクセス",
-        type_dl: "DOWNLOAD", type_lim: "LIMITED", type_inv: "EXCLUSIVE"
+const app = {
+    lang: localStorage.getItem('depot_lang') || 'ja',
+    cart: JSON.parse(localStorage.getItem('depot_cart')) || [],
+    activeInviteId: null,
+
+    // 多言語辞書
+    i18n: {
+        ja: {
+            nav_home: "ホーム", nav_catalog: "配布物一覧", nav_guide: "ご利用ガイド", nav_contact: "お問い合わせ",
+            nav_legal: "特定商取引法", nav_terms: "利用規約", nav_cart: "リスト", hero_h: "デジタル資産ライブラリ",
+            hero_p: "クリエイティブと技術の資産を無償提供します", auth_title: "招待制アクセス", 
+            auth_desc: "このコンテンツには招待コードが必要です", auth_unlock: "解除", dl_btn: "一括ダウンロード",
+            type_dl: "FREE DOWNLOAD", type_lim: "LIMITED", type_inv: "EXCLUSIVE"
+        },
+        en: {
+            nav_home: "Home", nav_catalog: "Catalog", nav_guide: "Guide", nav_contact: "Contact",
+            nav_legal: "Legal Notice", nav_terms: "Terms", nav_cart: "List", hero_h: "Digital Asset Library",
+            hero_p: "Providing high-quality engineering assets for free.", auth_title: "Exclusive Access",
+            auth_desc: "Invitation code required for this content.", auth_unlock: "Unlock", dl_btn: "Bulk Download",
+            type_dl: "FREE DOWNLOAD", type_lim: "LIMITED", type_inv: "EXCLUSIVE"
+        }
     },
-    en: {
-        nav_home: "Home", nav_products: "Products", nav_guide: "Guide", nav_contact: "Contact",
-        nav_cart: "Cart", hero_title: "NEW ARRIVALS", total: "Total", f_legal: "Legal Notice",
-        f_terms: "Terms", f_privacy: "Privacy", unlock: "Unlock", invite_title: "Exclusive Access",
-        type_dl: "DOWNLOAD", type_lim: "LIMITED", type_inv: "EXCLUSIVE"
+
+    // アイテムデータ
+    products: [
+        { id: 1, type: "dl", name: {ja:"開発コアテンプレート v2", en:"Dev Core v2"}, featured: true, stock: 999 },
+        { id: 2, type: "lim", name: {ja:"シリアル生成エンジン", en:"Serial Generator"}, featured: true, stock: 5 },
+        { id: 3, type: "inv", name: {ja:"秘密のUIキット", en:"Secret UI Kit"}, featured: false, code: "DEPOT2026" }
+    ],
+
+    init() {
+        this.render();
+        this.registerSW();
+        window.navigateTo = (id) => this.showView(id);
+    },
+
+    registerSW() {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(err => console.error(err));
+        }
+    },
+
+    showView(viewId) {
+        document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+        const target = document.getElementById(`view-${viewId}`);
+        if(target) target.classList.add('active');
+        
+        // サイドメニューを閉じる
+        const sideNav = document.getElementById('sideNavigation');
+        const bsOffcanvas = bootstrap.Offcanvas.getInstance(sideNav);
+        if(bsOffcanvas) bsOffcanvas.hide();
+        window.scrollTo(0,0);
+    },
+
+    toggleLanguage() {
+        this.lang = this.lang === 'ja' ? 'en' : 'ja';
+        localStorage.setItem('depot_lang', this.lang);
+        this.render();
+    },
+
+    render() {
+        // テキスト翻訳
+        document.querySelectorAll('[data-t]').forEach(el => {
+            const key = el.getAttribute('data-t');
+            el.textContent = this.i18n[this.lang][key];
+        });
+        document.getElementById('langBtn').textContent = this.lang === 'ja' ? 'ENGLISH' : '日本語';
+
+        // 商品描画ロジック
+        const createCard = (p) => `
+            <div class="col-6 col-md-4 col-lg-3">
+                <article class="item-card d-flex flex-column">
+                    <div class="item-img">
+                        <span class="item-badge">${this.i18n[this.lang]['type_'+p.type]}</span>
+                        <i class="bi bi-file-earmark-zip display-3 text-secondary"></i>
+                    </div>
+                    <div class="p-3 flex-grow-1">
+                        <h3 class="h6 fw-bold mb-3">${p.name[this.lang]}</h3>
+                        <button class="btn btn-dark btn-sm w-100 rounded-pill py-2" onclick="app.handleItemAction(${p.id})">
+                            ${p.type === 'inv' ? 'UNLOCK' : 'ADD TO LIST'}
+                        </button>
+                    </div>
+                </article>
+            </div>
+        `;
+
+        document.getElementById('featuredItems').innerHTML = this.products.filter(p => p.featured).map(createCard).join('');
+        document.getElementById('allProductGrid').innerHTML = this.products.map(createCard).join('');
+
+        // 法務・ガイド情報の注入
+        this.renderDocs();
+        this.updateCartUI();
+    },
+
+    renderDocs() {
+        const isJa = this.lang === 'ja';
+        document.getElementById('guideText').innerHTML = `
+            <h4 class="fw-bold mb-3">${isJa?'配布物の取り扱い':'Usage'}</h4>
+            <p class="small text-muted">${isJa?'当サイトの資産は商用・非商用を問わず自由にご利用いただけますが、再配布のみ禁止しております。':'Free to use for commercial/non-commercial projects. Redistribution is prohibited.'}</p>
+        `;
+
+        document.getElementById('legalContent').innerHTML = `
+            <table class="legal-table">
+                <tr><th>${isJa?'運営':'Provider'}</th><td>SHINONOI DEPOT</td></tr>
+                <tr><th>${isJa?'連絡先':'Contact'}</th><td>support@shinonoi-depot.jp</td></tr>
+                <tr><th>${isJa?'提供時期':'Delivery'}</th><td>${isJa?'即時':'Immediate download'}</td></tr>
+            </table>
+        `;
+
+        document.getElementById('termsContent').innerHTML = `
+            <div class="small">
+                <h6>第1条（目的）</h6><p>本規約は、利用者が本サービスを安全に利用するための条件を定めます。</p>
+                <h6>第2条（知的財産権）</h6><p>提供される資産の権利は当方に帰属しますが、利用者は許諾範囲内で自由に使用できます。</p>
+            </div>
+        `;
+    },
+
+    handleItemAction(id) {
+        const p = this.products.find(x => x.id === id);
+        if(p.type === 'inv') {
+            this.activeInviteId = id;
+            this.showView('auth');
+        } else {
+            this.addToCart(p);
+        }
+    },
+
+    verifyCode() {
+        const p = this.products.find(x => x.id === this.activeInviteId);
+        const input = document.getElementById('inviteCode').value;
+        if(input === p.code) {
+            this.addToCart(p);
+            this.showView('catalog');
+            document.getElementById('inviteCode').value = '';
+        } else {
+            alert('Invalid Invitation Code');
+        }
+    },
+
+    addToCart(p) {
+        if(this.cart.some(item => item.id === p.id)) return;
+        this.cart.push(p);
+        this.saveCart();
+        new bootstrap.Offcanvas(document.getElementById('cartDrawer')).show();
+    },
+
+    saveCart() {
+        localStorage.setItem('depot_cart', JSON.stringify(this.cart));
+        this.updateCartUI();
+    },
+
+    updateCartUI() {
+        document.getElementById('cartBadge').textContent = this.cart.length;
+        document.getElementById('cartItems').innerHTML = this.cart.map((item, idx) => `
+            <div class="d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded-3">
+                <span class="small fw-bold">${item.name[this.lang]}</span>
+                <i class="bi bi-x-circle text-danger" role="button" onclick="app.removeFromCart(${idx})"></i>
+            </div>
+        `).join('');
+    },
+
+    removeFromCart(idx) {
+        this.cart.splice(idx, 1);
+        this.saveCart();
+    },
+
+    processDownload() {
+        if(this.cart.length === 0) return;
+        alert(this.lang === 'ja' ? 'ダウンロードを開始します。' : 'Preparing downloads...');
+        this.cart = [];
+        this.saveCart();
     }
 };
 
-const products = [
-    { id: 1, type: "dl", name: {ja:"開発テンプレート v2", en:"Dev Template v2"}, price: 3000, stock: 999, featured: true },
-    { id: 2, type: "lim", name: {ja:"限定シリアルキー", en:"Limited Serial Key"}, price: 5000, stock: 3, featured: true },
-    { id: 3, type: "inv", name: {ja:"VIP限定ツール", en:"VIP Tool"}, price: 10000, code: "SHINO2026", featured: false }
-];
-
-const news = [
-    { date: "2026.05.19", text: {ja:"2026年度新作販売開始", en:"2026 New Items Released"} },
-    { date: "2026.04.10", text: {ja:"GW休業期間のお知らせ", en:"Holiday Notice"} }
-];
-
-let lang = localStorage.getItem('s_lang') || 'ja';
-let cart = JSON.parse(localStorage.getItem('s_cart')) || [];
-let activeInviteId = null;
-
-function showPage(id) {
-    document.querySelectorAll('.page-section').forEach(p => p.classList.add('d-none'));
-    document.getElementById(id).classList.remove('d-none');
-    const menu = document.getElementById('sideMenu');
-    const instance = bootstrap.Offcanvas.getInstance(menu);
-    if(instance) instance.hide();
-    window.scrollTo(0,0);
-}
-
-function toggleLang() {
-    lang = (lang === 'ja') ? 'en' : 'ja';
-    localStorage.setItem('s_lang', lang);
-    renderAll();
-}
-
-function renderAll() {
-    document.querySelectorAll('[data-t]').forEach(el => {
-        el.textContent = i18n[lang][el.getAttribute('data-t')];
-    });
-    document.getElementById('langBtn').textContent = (lang === 'ja') ? 'ENGLISH' : '日本語';
-
-    // 商品描画
-    const draw = (target, filter) => {
-        const list = products.filter(p => filter ? p.featured : true);
-        document.getElementById(target).innerHTML = list.map(p => `
-            <div class="col-6 col-md-4">
-                <div class="item-card text-center p-3">
-                    <div class="item-img"><span class="tag">${i18n[lang]['type_'+p.type]}</span><i class="bi bi-cpu"></i></div>
-                    <div class="mt-2 fw-bold small">${p.name[lang]}</div>
-                    <div class="fw-bold">¥${p.price.toLocaleString()}</div>
-                    <button class="btn btn-dark btn-sm w-100 rounded-pill mt-2" onclick="action(${p.id})">
-                        ${p.type === 'inv' ? i18n[lang].unlock : 'ADD TO CART'}
-                    </button>
-                </div>
-            </div>
-        `).join('');
-    };
-    draw('featuredList', true);
-    draw('allProductList', false);
-
-    // ニュース
-    document.getElementById('newsList').innerHTML = news.map(n => `
-        <div class="py-2 border-bottom small fw-bold">
-            <span class="date-tag">${n.date}</span>${n.text[lang]}
-        </div>
-    `).join('');
-
-    // リーガル・ガイド・規約（長文注入）
-    renderTextDocs();
-    updateCart();
-}
-
-function renderTextDocs() {
-    const isJa = lang === 'ja';
-    document.getElementById('guide-content').innerHTML = isJa ? 
-        `<h5>購入方法</h5><p>商品を選びカートに入れ、決済を完了させてください。ダウンロード商品は即座にマイページより取得可能です。</p>` : 
-        `<h5>How to Buy</h5><p>Select items, add to cart, and complete payment via Stripe.</p>`;
-    
-    document.getElementById('legal-content').innerHTML = `
-        <table class="legal-table">
-            <tr><th>${isJa?'販売業者':'Provider'}</th><td>SHINONOI DEPOT</td></tr>
-            <tr><th>${isJa?'支払時期':'Payment'}</th><td>${isJa?'クレジットカード：即時':'Credit Card: Instant'}</td></tr>
-            <tr><th>${isJa?'返品':'Returns'}</th><td>${isJa?'デジタル商品の為不可':'No refunds for digital goods'}</td></tr>
-        </table>
-    `;
-
-    document.getElementById('terms-content').innerHTML = `<h5>Terms of Service</h5><p>Redistribution of any assets provided by SHINONOI DEPOT is strictly prohibited. Violation will result in legal action.</p>`;
-    document.getElementById('privacy-content').innerHTML = `<h5>Privacy Policy</h5><p>We use your data only for transaction and delivery purposes. No third-party sharing.</p>`;
-}
-
-function action(id) {
-    const p = products.find(x => x.id === id);
-    if(p.type === 'inv') { activeInviteId = id; showPage('invite-auth'); }
-    else { addToCart(p); }
-}
-
-function verifyInvite() {
-    const p = products.find(x => x.id === activeInviteId);
-    if(document.getElementById('inviteInput').value === p.code) {
-        addToCart(p); showPage('home');
-    } else { alert("Invalid Code"); }
-}
-
-function addToCart(p) {
-    if(p.type === 'lim' && p.stock <= 0) return alert("Sold Out");
-    cart.push(p); saveCart();
-}
-
-function saveCart() {
-    localStorage.setItem('s_cart', JSON.stringify(cart));
-    updateCart();
-}
-
-function updateCart() {
-    document.getElementById('cartCount').textContent = cart.length;
-    document.getElementById('cartItems').innerHTML = cart.map((item, i) => `
-        <div class="d-flex justify-content-between mb-2 p-2 bg-light rounded">
-            <span class="small fw-bold">${item.name[lang]}</span>
-            <span>¥${item.price.toLocaleString()} <i class="bi bi-x text-danger" onclick="remove(${i})"></i></span>
-        </div>
-    `).join('');
-    const total = cart.reduce((s, i) => s + i.price, 0);
-    document.getElementById('cartTotal').textContent = `¥${total.toLocaleString()}`;
-}
-
-function remove(i) { cart.splice(i, 1); saveCart(); }
-
-// Stripe Checkout 連携
-async function startCheckout() {
-    if(cart.length === 0) return;
-    const btn = document.getElementById('checkoutBtn');
-    btn.disabled = true;
-    btn.textContent = "PROCESSING...";
-
-    // 本来はサーバーサイドでSession IDを生成しますが、ここではフロントエンドの動きを再現
-    // 実際には fetch('/create-checkout-session') 等を呼び出します
-    alert("Stripe Checkout Redirect Simulation\n(サーバー連携が必要です)");
-    
-    // 成功時シミュレーション
-    cart = []; saveCart();
-    btn.disabled = false;
-    btn.textContent = "PAY WITH STRIPE";
-}
-
-renderAll();
+document.addEventListener('DOMContentLoaded', () => app.init());
