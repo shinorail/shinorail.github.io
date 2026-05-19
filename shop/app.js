@@ -1,162 +1,158 @@
-// --- 多言語データ ---
+// Stripe公開可能キー (本番時は自分のキーに差し替え)
+const stripe = Stripe('pk_test_your_key_here');
+
 const i18n = {
     ja: {
-        nav_home: "ホーム", nav_products: "商品一覧", nav_guide: "ご利用ガイド", nav_about: "会社概要",
-        nav_cart: "カート", hero_title: "新着アイテム", new_goods: "新着商品", total: "合計",
-        checkout: "購入・ダウンロード", add: "追加", coming: "近日発売",
-        f_terms: "利用規約", f_privacy: "プライバシーポリシー", 
-        invite_title: "招待者限定商品", invite_msg: "閲覧には招待コードが必要です", unlock: "解除",
-        dl_guide_title: "ダウンロード販売", dl_guide_text: "デジタル商品を即座に受け取れます",
+        nav_home: "ホーム", nav_products: "商品一覧", nav_guide: "ご利用ガイド", nav_contact: "お問い合わせ",
+        nav_cart: "カート", hero_title: "新作アセット登場", total: "合計", f_legal: "特定商取引法",
+        f_terms: "利用規約", f_privacy: "プライバシーポリシー", unlock: "解除", invite_title: "招待者限定アクセス",
         type_dl: "DOWNLOAD", type_lim: "LIMITED", type_inv: "EXCLUSIVE"
     },
     en: {
-        nav_home: "Home", nav_products: "All Products", nav_guide: "Guide", nav_about: "About",
-        nav_cart: "Cart", hero_title: "NEW ARRIVALS", new_goods: "NEW GOODS", total: "Total",
-        checkout: "Checkout / Download", add: "Add", coming: "Coming Soon",
-        f_terms: "Terms", f_privacy: "Privacy",
-        invite_title: "Exclusive Product", invite_msg: "Invitation code required", unlock: "Unlock",
-        dl_guide_title: "Digital Delivery", dl_guide_text: "Download files instantly after purchase.",
+        nav_home: "Home", nav_products: "Products", nav_guide: "Guide", nav_contact: "Contact",
+        nav_cart: "Cart", hero_title: "NEW ARRIVALS", total: "Total", f_legal: "Legal Notice",
+        f_terms: "Terms", f_privacy: "Privacy", unlock: "Unlock", invite_title: "Exclusive Access",
         type_dl: "DOWNLOAD", type_lim: "LIMITED", type_inv: "EXCLUSIVE"
     }
 };
 
-// --- 商品・ニュースデータ ---
 const products = [
     { id: 1, type: "dl", name: {ja:"開発テンプレート v2", en:"Dev Template v2"}, price: 3000, stock: 999, featured: true },
     { id: 2, type: "lim", name: {ja:"限定シリアルキー", en:"Limited Serial Key"}, price: 5000, stock: 3, featured: true },
-    { id: 3, type: "inv", name: {ja:"VIP限定ツール", en:"VIP Tool"}, price: 0, code: "SHINO2026", featured: false },
-    { id: 4, type: "dl", name: {ja:"背景アセット集", en:"Background Assets"}, price: 1200, stock: 999, featured: false }
+    { id: 3, type: "inv", name: {ja:"VIP限定ツール", en:"VIP Tool"}, price: 10000, code: "SHINO2026", featured: false }
 ];
 
 const news = [
-    { date: "2026.05.19", text: {ja:"新作アセット販売開始", en:"New Assets Released"} },
-    { date: "2026.04.10", text: {ja:"GW休業のお知らせ", en:"Holiday Notice"} }
+    { date: "2026.05.19", text: {ja:"2026年度新作販売開始", en:"2026 New Items Released"} },
+    { date: "2026.04.10", text: {ja:"GW休業期間のお知らせ", en:"Holiday Notice"} }
 ];
 
-// --- 状態管理 ---
 let lang = localStorage.getItem('s_lang') || 'ja';
 let cart = JSON.parse(localStorage.getItem('s_cart')) || [];
 let activeInviteId = null;
 
-// --- 初期化 & ページ切替 ---
 function showPage(id) {
     document.querySelectorAll('.page-section').forEach(p => p.classList.add('d-none'));
     document.getElementById(id).classList.remove('d-none');
-    // サイドメニューが開いていれば閉じる (Bootstrap)
-    const sideMenu = document.getElementById('sideMenu');
-    const bsOffcanvas = bootstrap.Offcanvas.getInstance(sideMenu);
-    if(bsOffcanvas) bsOffcanvas.hide();
+    const menu = document.getElementById('sideMenu');
+    const instance = bootstrap.Offcanvas.getInstance(menu);
+    if(instance) instance.hide();
     window.scrollTo(0,0);
 }
 
 function toggleLang() {
-    lang = lang === 'ja' ? 'en' : 'ja';
+    lang = (lang === 'ja') ? 'en' : 'ja';
     localStorage.setItem('s_lang', lang);
     renderAll();
 }
 
-// --- 描画ロジック ---
 function renderAll() {
-    // 翻訳適用
     document.querySelectorAll('[data-t]').forEach(el => {
-        const key = el.getAttribute('data-t');
-        el.textContent = i18n[lang][key];
+        el.textContent = i18n[lang][el.getAttribute('data-t')];
     });
-    document.getElementById('langBtn').textContent = lang === 'ja' ? 'ENGLISH' : '日本語';
+    document.getElementById('langBtn').textContent = (lang === 'ja') ? 'ENGLISH' : '日本語';
 
-    // 商品描画 (Home & All)
-    const renderList = (targetId, filterFeatured) => {
-        const container = document.getElementById(targetId);
-        if(!container) return;
-        const displayList = filterFeatured ? products.filter(p => p.featured) : products;
-        container.innerHTML = displayList.map(p => `
+    // 商品描画
+    const draw = (target, filter) => {
+        const list = products.filter(p => filter ? p.featured : true);
+        document.getElementById(target).innerHTML = list.map(p => `
             <div class="col-6 col-md-4">
-                <div class="card item-card h-100">
-                    <div class="item-img">
-                        <span class="badge-tag">${i18n[lang]['type_'+p.type]}</span>
-                        <i class="bi bi-box-seam display-4 text-secondary"></i>
-                    </div>
-                    <div class="p-3 text-center">
-                        <div class="small fw-bold mb-1">${p.name[lang]}</div>
-                        <div class="fw-bold mb-2">¥${p.price.toLocaleString()}</div>
-                        <button class="btn btn-dark btn-sm w-100 rounded-pill" onclick="handleProductAction(${p.id})">
-                            ${p.type === 'inv' ? i18n[lang].unlock : i18n[lang].add}
-                        </button>
-                    </div>
+                <div class="item-card text-center p-3">
+                    <div class="item-img"><span class="tag">${i18n[lang]['type_'+p.type]}</span><i class="bi bi-cpu"></i></div>
+                    <div class="mt-2 fw-bold small">${p.name[lang]}</div>
+                    <div class="fw-bold">¥${p.price.toLocaleString()}</div>
+                    <button class="btn btn-dark btn-sm w-100 rounded-pill mt-2" onclick="action(${p.id})">
+                        ${p.type === 'inv' ? i18n[lang].unlock : 'ADD TO CART'}
+                    </button>
                 </div>
             </div>
         `).join('');
     };
-    renderList('featuredList', true);
-    renderList('allProductList', false);
+    draw('featuredList', true);
+    draw('allProductList', false);
 
-    // ニュース描画
+    // ニュース
     document.getElementById('newsList').innerHTML = news.map(n => `
-        <div class="py-2 border-bottom">
-            <span class="date-label">${n.date}</span>
-            <span class="small fw-bold">${n.text[lang]}</span>
+        <div class="py-2 border-bottom small fw-bold">
+            <span class="date-tag">${n.date}</span>${n.text[lang]}
         </div>
     `).join('');
 
-    updateCartUI();
+    // リーガル・ガイド・規約（長文注入）
+    renderTextDocs();
+    updateCart();
 }
 
-// --- カート & 招待ロジック ---
-function handleProductAction(id) {
+function renderTextDocs() {
+    const isJa = lang === 'ja';
+    document.getElementById('guide-content').innerHTML = isJa ? 
+        `<h5>購入方法</h5><p>商品を選びカートに入れ、決済を完了させてください。ダウンロード商品は即座にマイページより取得可能です。</p>` : 
+        `<h5>How to Buy</h5><p>Select items, add to cart, and complete payment via Stripe.</p>`;
+    
+    document.getElementById('legal-content').innerHTML = `
+        <table class="legal-table">
+            <tr><th>${isJa?'販売業者':'Provider'}</th><td>SHINONOI DEPOT</td></tr>
+            <tr><th>${isJa?'支払時期':'Payment'}</th><td>${isJa?'クレジットカード：即時':'Credit Card: Instant'}</td></tr>
+            <tr><th>${isJa?'返品':'Returns'}</th><td>${isJa?'デジタル商品の為不可':'No refunds for digital goods'}</td></tr>
+        </table>
+    `;
+
+    document.getElementById('terms-content').innerHTML = `<h5>Terms of Service</h5><p>Redistribution of any assets provided by SHINONOI DEPOT is strictly prohibited. Violation will result in legal action.</p>`;
+    document.getElementById('privacy-content').innerHTML = `<h5>Privacy Policy</h5><p>We use your data only for transaction and delivery purposes. No third-party sharing.</p>`;
+}
+
+function action(id) {
     const p = products.find(x => x.id === id);
-    if(p.type === 'inv') {
-        activeInviteId = id;
-        showPage('invite-auth');
-    } else {
-        addToCart(p);
-    }
+    if(p.type === 'inv') { activeInviteId = id; showPage('invite-auth'); }
+    else { addToCart(p); }
 }
 
 function verifyInvite() {
     const p = products.find(x => x.id === activeInviteId);
     if(document.getElementById('inviteInput').value === p.code) {
-        addToCart(p);
-        showPage('home');
-        document.getElementById('inviteInput').value = '';
-    } else {
-        alert("Invalid Code");
-    }
+        addToCart(p); showPage('home');
+    } else { alert("Invalid Code"); }
 }
 
 function addToCart(p) {
     if(p.type === 'lim' && p.stock <= 0) return alert("Sold Out");
-    cart.push(p);
-    saveCart();
-    new bootstrap.Offcanvas(document.getElementById('cartBox')).show();
+    cart.push(p); saveCart();
 }
 
 function saveCart() {
     localStorage.setItem('s_cart', JSON.stringify(cart));
-    updateCartUI();
+    updateCart();
 }
 
-function updateCartUI() {
+function updateCart() {
     document.getElementById('cartCount').textContent = cart.length;
-    const body = document.getElementById('cartItems');
-    body.innerHTML = cart.map((item, idx) => `
-        <div class="d-flex justify-content-between align-items-center mb-3 p-2 bg-light rounded">
-            <div>
-                <div class="small fw-bold">${item.name[lang]}</div>
-                <div class="small text-muted">¥${item.price.toLocaleString()}</div>
-            </div>
-            <i class="bi bi-trash text-danger" style="cursor:pointer" onclick="removeFromCart(${idx})"></i>
+    document.getElementById('cartItems').innerHTML = cart.map((item, i) => `
+        <div class="d-flex justify-content-between mb-2 p-2 bg-light rounded">
+            <span class="small fw-bold">${item.name[lang]}</span>
+            <span>¥${item.price.toLocaleString()} <i class="bi bi-x text-danger" onclick="remove(${i})"></i></span>
         </div>
     `).join('');
-    const total = cart.reduce((sum, i) => sum + i.price, 0);
+    const total = cart.reduce((s, i) => s + i.price, 0);
     document.getElementById('cartTotal').textContent = `¥${total.toLocaleString()}`;
 }
 
-function removeFromCart(idx) { cart.splice(idx, 1); saveCart(); }
+function remove(i) { cart.splice(i, 1); saveCart(); }
 
-function checkout() {
-    alert(lang === 'ja' ? "購入ありがとうございます！" : "Thank you for your purchase!");
+// Stripe Checkout 連携
+async function startCheckout() {
+    if(cart.length === 0) return;
+    const btn = document.getElementById('checkoutBtn');
+    btn.disabled = true;
+    btn.textContent = "PROCESSING...";
+
+    // 本来はサーバーサイドでSession IDを生成しますが、ここではフロントエンドの動きを再現
+    // 実際には fetch('/create-checkout-session') 等を呼び出します
+    alert("Stripe Checkout Redirect Simulation\n(サーバー連携が必要です)");
+    
+    // 成功時シミュレーション
     cart = []; saveCart();
+    btn.disabled = false;
+    btn.textContent = "PAY WITH STRIPE";
 }
 
-// 起動
 renderAll();
