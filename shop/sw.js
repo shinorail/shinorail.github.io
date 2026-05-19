@@ -1,35 +1,15 @@
-const CACHE_NAME = 'unit-store-v1';
+const CACHE_NAME = 'depot-v1';
 const ASSETS = [
-  './',
-  './index.html',
-  './manifest.json',
-  // 今後追加するアイコンやCSS、JSがあればここに追記
+    './index.html',
+    './style.css',
+    './app.js',
+    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css'
 ];
 
-// インストール時にリソースをキャッシュ
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(ASSETS))
-  );
+self.addEventListener('install', (e) => {
+    e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)));
 });
 
-// キャッシュがあればそれを返し、なければネットワークから取得
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request)
-      .then((response) => response || fetch(event.request))
-  );　
-});
-
-// 古いキャッシュの削除
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
-        keys.filter(key => key !== CACHE_NAME)
-            .map(key => caches.delete(key))
-      );
-    })
-  );
+self.addEventListener('fetch', (e) => {
+    e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
 });
