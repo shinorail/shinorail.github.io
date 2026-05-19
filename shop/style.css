@@ -1,56 +1,50 @@
 :root {
     --primary: #005ce6;
-    --bg: #f8f9fa;
-    --nav-h: 72px;
+    --dark: #1a1a1a;
+    --light: #f8f9fa;
+    --border: #dee2e6;
+    --nav-h: 70px;
 }
 
 body {
     padding-top: var(--nav-h);
-    background-color: var(--bg);
-    color: #333;
-    font-family: "Hiragino Sans", "Meiryo", sans-serif;
-    -webkit-font-smoothing: antialiased;
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+    background-color: var(--light);
+    color: var(--dark);
+    line-height: 1.6;
+    overflow-x: hidden;
 }
 
-/* Amazon風のクリーンなカード設計 */
-.hero-section {
-    background: linear-gradient(135deg, #ffffff 0%, #eef6ff 100%);
-    border: 1px solid rgba(0,0,0,0.05);
-}
+/* ヘッダー */
+.navbar { height: var(--nav-h); background: #fff !important; }
+.navbar-brand { font-weight: 800; letter-spacing: -0.5px; }
 
+/* カード設計 */
 .asset-card {
     background: #fff;
-    border: 1px solid #dee2e6;
+    border: 1px solid var(--border);
     border-radius: 12px;
-    transition: 0.25s ease-in-out;
+    transition: 0.3s;
     height: 100%;
     display: flex;
     flex-direction: column;
 }
-.asset-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
-    border-color: var(--primary);
-}
+.asset-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+.asset-img { aspect-ratio: 16/9; background: #eee; border-radius: 11px 11px 0 0; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #999; }
 
-.asset-img {
-    aspect-ratio: 16/9;
-    background-color: #f1f3f5;
-    border-radius: 12px 12px 0 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+/* リーガル・文書ページ */
+.doc-container { background: #fff; border-radius: 16px; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+.doc-container h1 { font-size: 1.75rem; font-weight: 800; border-bottom: 3px solid var(--primary); padding-bottom: 10px; margin-bottom: 30px; }
+.doc-container h2 { font-size: 1.25rem; font-weight: 700; margin-top: 30px; border-left: 5px solid var(--primary); padding-left: 15px; }
 
-/* モバイルでのズレを許さない設定 */
+/* テーブル */
+.legal-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+.legal-table th { background: #f1f3f5; width: 30%; padding: 15px; border: 1px solid var(--border); text-align: left; }
+.legal-table td { padding: 15px; border: 1px solid var(--border); }
+
+/* モバイル最適化 */
 @media (max-width: 768px) {
-    .navbar-brand { font-size: 1.1rem; }
-    .hero-section { padding: 40px 20px !important; }
-    .display-4 { font-size: 2.2rem; }
-}
-
-/* アクセシビリティ：フォーカス可視化 */
-*:focus-visible {
-    outline: 3px solid var(--primary);
-    outline-offset: 2px;
+    .doc-container { padding: 20px; }
+    .legal-table th, .legal-table td { display: block; width: 100%; }
+    .legal-table th { border-bottom: none; }
 }
