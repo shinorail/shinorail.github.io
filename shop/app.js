@@ -1,71 +1,100 @@
+/**
+ * SHINONOI DEPOT - Universal Logic
+ */
 const app = {
-    // 招待コード
+    lang: localStorage.getItem('depot_lang') || 'ja',
+    cart: JSON.parse(localStorage.getItem('depot_cart') || '[]'),
     INVITE_CODE: "SHINO2026",
 
-    init() {
-        this.updateCartBadge();
-        this.setupAuth();
-        this.renderCatalog();
-        this.renderDetail();
+    // 翻訳データ
+    i18n: {
+        ja: { home: "ホーム", items: "配布物", excl: "限定ページ", guide: "ガイド", contact: "お問い合わせ", legal: "特定商取引法", terms: "規約", privacy: "プライバシー", cart: "リスト", add: "追加", lang: "ENGLISH", mail: "メールを起動" },
+        en: { home: "Home", items: "Assets", excl: "Exclusive", guide: "Guide", contact: "Contact", legal: "Legal", terms: "Terms", privacy: "Privacy", cart: "List", add: "Add", lang: "日本語", mail: "Open Mailer" }
     },
 
-    // 限定ページアクセス制御
-    setupAuth() {
+    init() {
+        this.renderUI();
+        this.checkAuth();
+        this.updateCartBadge();
+    },
+
+    // 言語切り替えロジック
+    langToggle() {
+        this.lang = (this.lang === 'ja') ? 'en' : 'ja';
+        localStorage.setItem('depot_lang', this.lang);
+        location.reload(); // 全ページに適用させるためリロード
+    },
+
+    // UIのテキストを動的に書き換え
+    renderUI() {
+        const dict = this.i18n[this.lang];
+        document.querySelectorAll('[data-t]').forEach(el => {
+            const key = el.getAttribute('data-t');
+            if (dict[key]) el.textContent = dict[key];
+        });
+        const langBtn = document.getElementById('langBtn');
+        if (langBtn) langBtn.textContent = dict.lang;
+    },
+
+    // カート追加 (ボタンが反応しないバグを修正)
+    addToCart(id, name) {
+        if (!this.cart.find(i => i.id === id)) {
+            this.cart.push({ id, name });
+            localStorage.setItem('depot_cart', JSON.stringify(this.cart));
+            this.updateCartBadge();
+            this.renderCartList();
+            alert(this.lang === 'ja' ? "リストに追加しました" : "Added to list");
+        }
+    },
+
+    updateCartBadge() {
+        const badge = document.getElementById('cartBadge');
+        if (badge) badge.textContent = this.cart.length;
+    },
+
+    // カートの中身をドロワーに表示
+    renderCartList() {
+        const list = document.getElementById('cartItems');
+        if (!list) return;
+        list.innerHTML = this.cart.map((item, idx) => `
+            <div class="d-flex justify-content-between align-items-center mb-3 p-2 bg-light rounded">
+                <span class="small fw-bold">${item.name}</span>
+                <button class="btn btn-sm btn-danger" onclick="app.removeCart(${idx})">×</button>
+            </div>
+        `).join('');
+    },
+
+    removeCart(idx) {
+        this.cart.splice(idx, 1);
+        localStorage.setItem('depot_cart', JSON.stringify(this.cart));
+        this.updateCartBadge();
+        this.renderCartList();
+    },
+
+    // 認証チェック
+    checkAuth() {
         if (window.location.pathname.includes('exclusive.html')) {
-            if (sessionStorage.getItem('shinonoi_auth') !== 'true') {
+            if (sessionStorage.getItem('depot_auth') !== 'true') {
                 window.location.href = 'auth.html';
             }
         }
     },
 
-    // 認証実行
     verify() {
-        const val = document.getElementById('passInput').value;
-        if (val === this.INVITE_CODE) {
-            sessionStorage.setItem('shinonoi_auth', 'true');
+        const input = document.getElementById('passInput').value;
+        if (input === this.INVITE_CODE) {
+            sessionStorage.setItem('depot_auth', 'true');
             window.location.href = 'exclusive.html';
         } else {
-            alert("コードが正しくありません");
+            alert("Error");
         }
     },
 
-    // カート機能
-    add(id) {
-        let cart = JSON.parse(localStorage.getItem('shinonoi_cart') || '[]');
-        if (!cart.includes(id)) {
-            cart.push(id);
-            localStorage.setItem('shinonoi_cart', JSON.stringify(cart));
-            this.updateCartBadge();
-            alert("ダウンロードリストに追加しました");
-        }
-    },
-
-    updateCartBadge() {
-        const cart = JSON.parse(localStorage.getItem('shinonoi_cart') || '[]');
-        const badge = document.getElementById('cartBadge');
-        if (badge) badge.textContent = cart.length;
-    },
-
-    // カタログ描画
-    renderCatalog() {
-        const el = document.getElementById('catalogGrid');
-        if (!el) return;
-        const items = [
-            {id:1, name:"System Core v2"}, {id:2, name:"UI Framework"},
-            {id:3, name:"Network Tool"}, {id:4, name:"Graphic Assets"}
-        ];
-        el.innerHTML = items.map(i => `
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="asset-card">
-                    <div class="asset-img"><i class="bi bi-cpu"></i></div>
-                    <div class="p-3">
-                        <h3 class="h6 fw-bold">${i.name}</h3>
-                        <a href="item-detail.html?id=${i.id}" class="btn btn-outline-dark btn-sm w-100 rounded-pill mb-2">詳細</a>
-                        <button class="btn btn-primary btn-sm w-100 rounded-pill" onclick="app.add(${i.id})">入手する</button>
-                    </div>
-                </div>
-            </div>
-        `).join('');
+    // メール起動
+    sendMail() {
+        const subject = encodeURIComponent("SHINONOI DEPOT Inquiry");
+        window.location.href = `mailto:support@example.com?subject=${subject}`;
     }
 };
-window.onload = () => app.init();
+
+document.addEventListener('DOMContentLoaded', () => app.init());
