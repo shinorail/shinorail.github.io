@@ -1,1 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Official Store - System Development & Creative Unit">
+    <title>Official Store</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #1a1a1a;
+            --accent: #0066ff;
+            --gray: #f4f4f4;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0a0a0a;
+                --text: #f0f0f0;
+                --gray: #222222;
+            }
+        }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
 
+        /* アクセシビリティ対応ナビゲーション */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 5%;
+            border-bottom: 1px solid var(--gray);
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            z-index: 1000;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: 2px solid currentColor;
+            padding: 8px 12px;
+            cursor: pointer;
+            color: var(--text);
+            font-weight: bold;
+        }
+
+        #nav-menu {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 280px;
+            height: 100%;
+            background: var(--gray);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 80px 20px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        #nav-menu.open { transform: translateX(100%); }
+
+        /* グリッドレイアウト */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 5%;
+        }
+
+        .product-card {
+            border: 1px solid var(--gray);
+            padding: 1.5rem;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: auto;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+        .btn:hover { opacity: 0.8; }
+        .btn:focus { outline: 3px solid var(--text); outline-offset: 2px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="menu-toggle" aria-expanded="false" aria-controls="nav-menu" onclick="toggleNav()">MENU</button>
+        <div class="brand">STORE / UNIT-NAME</div>
+        <div id="cart-status" role="status" aria-live="polite">Cart: 0</div>
+    </header>
+
+    <nav id="nav-menu" aria-label="Main Navigation">
+        <ul style="list-style:none; padding:0;">
+            <li><a href="/" style="text-decoration:none; color:inherit; font-size:1.2rem;">HOME</a></li>
+            <li><a href="#products" style="text-decoration:none; color:inherit; font-size:1.2rem;">PRODUCTS</a></li>
+        </ul>
+    </nav>
+
+    <main class="grid" id="product-container"></main>
+
+    <script>
+        // Data Schema
+        const products = [
+            { id: 101, name: "Data Visualization Tool", price: 5000, desc: "React-based analytics component library." },
+            { id: 201, name: "Creative Asset Pack", price: 3000, desc: "High-resolution UI components and shaders." }
+        ];
+
+        // State Management (LocalStorage)
+        let cart = JSON.parse(localStorage.getItem('unit_store_cart') || '[]');
+
+        function toggleNav() {
+            const menu = document.getElementById('nav-menu');
+            const btn = document.querySelector('.menu-toggle');
+            const isOpen = menu.classList.toggle('open');
+            btn.setAttribute('aria-expanded', isOpen);
+        }
+
+        function updateCart() {
+            document.getElementById('cart-status').textContent = `Cart: ${cart.length}`;
+            localStorage.setItem('unit_store_cart', JSON.stringify(cart));
+        }
+
+        function addToCart(productId) {
+            cart.push(productId);
+            updateCart();
+        }
+
+        // Render Products
+        const container = document.getElementById('product-container');
+        products.forEach(p => {
+            const el = document.createElement('section');
+            el.className = 'product-card';
+            el.innerHTML = `
+                <h2>${p.name}</h2>
+                <p>${p.desc}</p>
+                <p><strong>&yen;${p.price.toLocaleString()}</strong></p>
+                <button class="btn" onclick="addToCart(${p.id})">Add to Cart</button>
+            `;
+            container.appendChild(el);
+        });
+
+        // PWA Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+
+        updateCart();
+    </script>
+</body>
+</html>
