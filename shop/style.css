@@ -1,23 +1,92 @@
-:root { --accent: #ff004c; --bg-yellow: #fff3c4; --nav-h: 70px; }
-body { padding-top: var(--nav-h); font-family: "Hiragino Sans", sans-serif; background: #fff; }
-.navbar { height: var(--nav-h); border-bottom: 2px solid #f0f0f0; }
-.cart-icon { cursor: pointer; position: relative; }
-.cart-icon .badge { position: absolute; top: -5px; right: -8px; background: var(--accent); font-size: 0.6rem; }
+:root {
+    --primary: #0056b3;
+    --accent: #ff0044;
+    --nav-h: 70px;
+}
 
-.section-title { position: relative; font-weight: 900; font-size: 1.8rem; text-align: center; margin: 50px 0; letter-spacing: 1px; }
-.section-icon { position: absolute; top: -20px; right: 10%; border: 2px solid #000; background: #fff; padding: 4px; border-radius: 8px; font-size: 1.2rem; }
+body {
+    padding-top: var(--nav-h);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #fcfcfc;
+    color: #1a1a1a;
+}
 
-.item-card { border: 2px solid #eee; border-radius: 20px; transition: 0.3s; overflow: hidden; height: 100%; }
-.item-card:hover { transform: translateY(-5px); border-color: #000; }
-.item-img { aspect-ratio: 1/1; background: #f9f9f9; display: flex; align-items: center; justify-content: center; position: relative; font-size: 3rem; }
-.tag { position: absolute; top: 10px; left: 10px; background: #000; color: #fff; padding: 3px 8px; font-size: 0.7rem; font-weight: bold; border-radius: 4px; }
+/* ページ切り替えアニメーション */
+.page-view {
+    display: none;
+    animation: fadeIn 0.4s ease-in-out;
+}
+.page-view.active { display: block; }
 
-.news-box { background: var(--bg-yellow); border-radius: 30px; padding: 40px 20px; }
-.news-list { background: #fff; border-radius: 20px; padding: 25px; }
-.date-tag { background: var(--accent); color: #fff; padding: 2px 8px; border-radius: 4px; margin-right: 12px; font-size: 0.8rem; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-.legal-doc { line-height: 2; color: #444; max-height: 500px; overflow-y: auto; text-align: left; }
-.legal-doc h5 { font-weight: bold; margin-top: 25px; border-left: 4px solid var(--accent); padding-left: 10px; color: #000; }
-.legal-table { width: 100%; border-collapse: collapse; }
-.legal-table th { background: #f5f5f5; width: 30%; padding: 10px; border: 1px solid #ddd; }
-.legal-table td { padding: 10px; border: 1px solid #ddd; }
+/* Amazon風の清潔感あるHero */
+.hero-section {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* 商品カード：スマホでも崩れないFlex管理 */
+.item-card {
+    border: 1px solid #eee;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 100%;
+    transition: box-shadow 0.3s ease;
+}
+.item-card:hover { box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+
+.item-img {
+    background: #f8f9fa;
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.item-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    background: #000;
+    color: #fff;
+    border-radius: 4px;
+}
+
+/* アクセシビリティ：フォーカス時の枠線 */
+.btn:focus, .form-control:focus {
+    box-shadow: 0 0 0 3px rgba(0,86,179,0.25);
+}
+
+/* 特定商取引法などのリーガルテーブル */
+.legal-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.legal-table th {
+    background: #f8f9fa;
+    width: 30%;
+    padding: 15px;
+    border: 1px solid #eee;
+    font-size: 0.9rem;
+}
+.legal-table td {
+    padding: 15px;
+    border: 1px solid #eee;
+    font-size: 0.9rem;
+}
+
+/* モバイル最適化：横はみ出しを完全禁止 */
+@media (max-width: 576px) {
+    .container { padding-left: 20px; padding-right: 20px; }
+    .hero-section { padding: 30px 15px !important; }
+    .display-4 { font-size: 2rem; }
+}
