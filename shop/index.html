@@ -3,161 +3,327 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Official Store - System Development & Creative Unit">
-    <title>Official Store</title>
+    <title>SHINONOI STORE | Unit</title>
     <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0066ff">
     <style>
         :root {
             --bg: #ffffff;
-            --text: #1a1a1a;
+            --surface: #f8f9fa;
+            --text: #111111;
             --accent: #0066ff;
-            --gray: #f4f4f4;
+            --border: #e0e0e0;
+            --safe-area: 20px;
         }
+
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg: #0a0a0a;
+                --surface: #1a1a1a;
                 --text: #f0f0f0;
-                --gray: #222222;
+                --accent: #3385ff;
+                --border: #333333;
             }
         }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
             margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background: var(--bg);
             color: var(--text);
-            line-height: 1.6;
+            transition: background 0.3s;
         }
 
-        /* アクセシビリティ対応ナビゲーション */
+        /* Header & Navigation */
         header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1rem 5%;
-            border-bottom: 1px solid var(--gray);
+            padding: 15px var(--safe-area);
+            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
             background: var(--bg);
             z-index: 1000;
         }
 
-        .menu-toggle {
-            background: none;
-            border: 2px solid currentColor;
-            padding: 8px 12px;
-            cursor: pointer;
+        .brand { font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px; }
+
+        .controls { display: flex; gap: 15px; align-items: center; }
+
+        .lang-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
             color: var(--text);
-            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
         }
 
-        #nav-menu {
+        .menu-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* Side Navigation */
+        nav#side-menu {
             position: fixed;
             top: 0;
-            left: -100%;
-            width: 280px;
+            right: -100%;
+            width: 80%;
+            max-width: 300px;
             height: 100%;
-            background: var(--gray);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 80px 20px;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            background: var(--surface);
+            z-index: 2000;
+            transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 80px 30px;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
         }
-        #nav-menu.open { transform: translateX(100%); }
 
-        /* グリッドレイアウト */
+        nav#side-menu.active { right: 0; }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 1500;
+        }
+        .overlay.active { display: block; }
+
+        .nav-links { list-style: none; padding: 0; }
+        .nav-links li { margin-bottom: 25px; }
+        .nav-links a { 
+            text-decoration: none; 
+            color: var(--text); 
+            font-size: 1.4rem; 
+            font-weight: 600;
+        }
+
+        /* Main Content Sections */
+        section {
+            padding: 60px var(--safe-area);
+            max-width: 1000px;
+            margin: 0 auto;
+            display: none; /* 初期状態は非表示 */
+        }
+        section.active { display: block; animation: fadeInUp 0.5s ease; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Product Grid */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            padding: 5%;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
         }
 
-        .product-card {
-            border: 1px solid var(--gray);
-            padding: 1.5rem;
-            border-radius: 8px;
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
         }
 
-        .btn {
+        .card h3 { margin-top: 0; }
+        .card .price { font-weight: 800; color: var(--accent); font-size: 1.2rem; }
+
+        .buy-btn {
             background: var(--accent);
             color: white;
             border: none;
             padding: 12px;
-            border-radius: 4px;
+            border-radius: 8px;
+            margin-top: 15px;
             cursor: pointer;
-            margin-top: auto;
-            font-weight: 600;
-            transition: opacity 0.2s;
+            font-weight: bold;
         }
-        .btn:hover { opacity: 0.8; }
-        .btn:focus { outline: 3px solid var(--text); outline-offset: 2px; }
+
+        /* Cart Badge */
+        #cart-badge {
+            background: var(--accent);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            position: relative;
+            top: -10px;
+            right: 5px;
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <button class="menu-toggle" aria-expanded="false" aria-controls="nav-menu" onclick="toggleNav()">MENU</button>
-        <div class="brand">STORE / UNIT-NAME</div>
-        <div id="cart-status" role="status" aria-live="polite">Cart: 0</div>
-    </header>
+<header>
+    <div class="brand">UNIT / SHOP</div>
+    <div class="controls">
+        <button class="lang-btn" onclick="toggleLang()" id="lang-toggle">EN</button>
+        <div onclick="showSection('cart')" style="cursor:pointer">
+            🛒<span id="cart-badge">0</span>
+        </div>
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    </div>
+</header>
 
-    <nav id="nav-menu" aria-label="Main Navigation">
-        <ul style="list-style:none; padding:0;">
-            <li><a href="/" style="text-decoration:none; color:inherit; font-size:1.2rem;">HOME</a></li>
-            <li><a href="#products" style="text-decoration:none; color:inherit; font-size:1.2rem;">PRODUCTS</a></li>
-        </ul>
-    </nav>
+<div class="overlay" onclick="toggleMenu()"></div>
 
-    <main class="grid" id="product-container"></main>
+<nav id="side-menu">
+    <ul class="nav-links">
+        <li><a href="#" onclick="showSection('home')" data-t="nav_home">ホーム</a></li>
+        <li><a href="#" onclick="showSection('products')" data-t="nav_products">製品</a></li>
+        <li><a href="#" onclick="showSection('about')" data-t="nav_about">概要</a></li>
+        <li><a href="#" onclick="showSection('cart')" data-t="nav_cart">カート</a></li>
+    </ul>
+</nav>
 
-    <script>
-        // Data Schema
-        const products = [
-            { id: 101, name: "Data Visualization Tool", price: 5000, desc: "React-based analytics component library." },
-            { id: 201, name: "Creative Asset Pack", price: 3000, desc: "High-resolution UI components and shaders." }
-        ];
+<section id="home" class="active">
+    <h1 data-t="home_title">創造と開発の拠点。</h1>
+    <p data-t="home_desc">私たちはシステム開発とクリエイティブな表現を融合させ、新しい価値をデプロイします。</p>
+    <button class="buy-btn" onclick="showSection('products')" data-t="view_products">製品を見る</button>
+</section>
 
-        // State Management (LocalStorage)
-        let cart = JSON.parse(localStorage.getItem('unit_store_cart') || '[]');
+<section id="products">
+    <h2 data-t="nav_products">製品</h2>
+    <div class="grid" id="product-list">
+        </div>
+</section>
 
-        function toggleNav() {
-            const menu = document.getElementById('nav-menu');
-            const btn = document.querySelector('.menu-toggle');
-            const isOpen = menu.classList.toggle('open');
-            btn.setAttribute('aria-expanded', isOpen);
+<section id="cart">
+    <h2 data-t="nav_cart">カート</h2>
+    <div id="cart-empty" data-t="cart_empty">カートは空です。</div>
+    <div id="cart-items-list"></div>
+    <hr style="border:0; border-top:1px solid var(--border); margin:20px 0;">
+    <div style="text-align:right">
+        <span data-t="total">合計</span>: <span id="cart-total">¥0</span>
+    </div>
+</section>
+
+<section id="about">
+    <h2 data-t="nav_about">概要</h2>
+    <p data-t="about_text">このストアはPWAに対応した次世代の配布拠点です。</p>
+</section>
+
+<script>
+    /* --- 1. 翻訳データ --- */
+    const i18n = {
+        ja: {
+            nav_home: "ホーム", nav_products: "製品", nav_about: "概要", nav_cart: "カート",
+            home_title: "創造と開発の拠点。", home_desc: "私たちはシステム開発とクリエイティブな表現を融合させ、新しい価値をデプロイします。",
+            view_products: "製品を見る", cart_empty: "カートは空です。", total: "合計", add_cart: "追加",
+            about_text: "このストアはPWAに対応した次世代の配布拠点です。"
+        },
+        en: {
+            nav_home: "Home", nav_products: "Products", nav_about: "About", nav_cart: "Cart",
+            home_title: "Creative Depot.", home_desc: "Merging system development and creative expression to deploy new values.",
+            view_products: "View Products", cart_empty: "Your cart is empty.", total: "Total", add_cart: "Add to Cart",
+            about_text: "This store is a next-gen distribution hub supporting PWA."
         }
+    };
 
-        function updateCart() {
-            document.getElementById('cart-status').textContent = `Cart: ${cart.length}`;
-            localStorage.setItem('unit_store_cart', JSON.stringify(cart));
-        }
+    /* --- 2. 商品データ --- */
+    const products = [
+        { id: 1, name: "Asset Pack v1", price: 3000 },
+        { id: 2, name: "Data Engine API", price: 8500 },
+        { id: 3, name: "UI Components", price: 1500 }
+    ];
 
-        function addToCart(productId) {
-            cart.push(productId);
-            updateCart();
-        }
+    /* --- 3. システムロジック --- */
+    let currentLang = localStorage.getItem('lang') || 'ja';
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 
-        // Render Products
-        const container = document.getElementById('product-container');
-        products.forEach(p => {
-            const el = document.createElement('section');
-            el.className = 'product-card';
-            el.innerHTML = `
-                <h2>${p.name}</h2>
-                <p>${p.desc}</p>
-                <p><strong>&yen;${p.price.toLocaleString()}</strong></p>
-                <button class="btn" onclick="addToCart(${p.id})">Add to Cart</button>
-            `;
-            container.appendChild(el);
+    function updateLanguageUI() {
+        document.querySelectorAll('[data-t]').forEach(el => {
+            const key = el.getAttribute('data-t');
+            el.textContent = i18n[currentLang][key];
         });
+        document.getElementById('lang-toggle').textContent = currentLang === 'ja' ? 'EN' : 'JP';
+        renderProducts();
+        renderCart();
+    }
 
-        // PWA Service Worker
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
+    function toggleLang() {
+        currentLang = currentLang === 'ja' ? 'en' : 'ja';
+        localStorage.setItem('lang', currentLang);
+        updateLanguageUI();
+    }
+
+    function toggleMenu() {
+        document.getElementById('side-menu').classList.toggle('active');
+        document.querySelector('.overlay').classList.toggle('active');
+    }
+
+    function showSection(id) {
+        document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        if(window.innerWidth < 800) toggleMenu();
+        window.scrollTo(0,0);
+    }
+
+    function renderProducts() {
+        const list = document.getElementById('product-list');
+        list.innerHTML = products.map(p => `
+            <div class="card">
+                <div>
+                    <h3>${p.name}</h3>
+                    <p class="price">¥${p.price.toLocaleString()}</p>
+                </div>
+                <button class="buy-btn" onclick="addToCart(${p.id})">${i18n[currentLang].add_cart}</button>
+            </div>
+        `).join('');
+    }
+
+    function addToCart(id) {
+        const item = products.find(p => p.id === id);
+        cart.push(item);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCount();
+        renderCart();
+    }
+
+    function updateCartCount() {
+        document.getElementById('cart-badge').textContent = cart.length;
+    }
+
+    function renderCart() {
+        const list = document.getElementById('cart-items-list');
+        const emptyMsg = document.getElementById('cart-empty');
+        if(cart.length === 0) {
+            emptyMsg.style.display = 'block';
+            list.innerHTML = '';
+        } else {
+            emptyMsg.style.display = 'none';
+            list.innerHTML = cart.map((item, idx) => `
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                    <span>${item.name}</span>
+                    <span>¥${item.price.toLocaleString()}</span>
+                </div>
+            `).join('');
         }
+        const total = cart.reduce((sum, item) => sum + item.price, 0);
+        document.getElementById('cart-total').textContent = `¥${total.toLocaleString()}`;
+    }
 
-        updateCart();
-    </script>
+    // 初期化
+    updateLanguageUI();
+    updateCartCount();
+
+    // PWA Service Worker (sw.js) の登録
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+</script>
 </body>
 </html>
