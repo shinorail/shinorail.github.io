@@ -107,3 +107,24 @@ window.addEventListener('load', () => {
         }, 1200); // 出発進行を見せる時間
     }
 });
+// フッター広告を生成
+function loadFooterAd() {
+  const footer = document.createElement("div");
+  footer.id = "footer-ad";
+  footer.innerHTML = `
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-4068543578821342"
+         data-ad-slot="5578434770"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  `;
+  document.body.appendChild(footer);
+
+  // AdSense の広告を読み込む
+  (adsbygoogle = window.adsbygoogle || []).push({});
+}
+
+// ページ読み込み後に広告を追加
+window.addEventListener("DOMContentLoaded", loadFooterAd);
+
