@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>メンテナンス中</title>
+<style>
+body {
+  background: black;
+  color: white;
+  text-align: center;
+  font-family: 'Noto Sans JP', sans-serif;
+  padding-top: 120px;
+}
+
+/* 爆光アニメーション */
+.glow {
+  font-size: 48px;
+  font-weight: bold;
+  animation: glowAnime 1.5s infinite;
+}
+
+@keyframes glowAnime {
+  0% { text-shadow: 0 0 10px red; }
+  50% { text-shadow: 0 0 40px yellow; }
+  100% { text-shadow: 0 0 10px blue; }
+}
+</style>
+</head>
+<body>
+  <div class="glow">🚧 メンテナンス中です 🚧</div>
+  <p>しばらくお待ちください。</p>
+</body>
+</html>
