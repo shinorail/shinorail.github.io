@@ -47,15 +47,8 @@ body {
 </div>
 
 <script>
-// 共通パスワード（くみちょうが決める）
+// 共通パスワード
 const PASSWORD = "shinonoi2026";
-
-// ファイル一覧（ここに追加するだけでOK）
-const files = [
-    { name: "運営ガイドライン2026.pdf", path: "files/guide2026.pdf" },
-    { name: "ロゴデータ.zip", path: "files/logo.zip" },
-    { name: "イベント資料.pdf", path: "files/event2026.pdf" }
-];
 
 function login() {
     const input = document.getElementById("pass").value;
@@ -69,16 +62,20 @@ function login() {
 }
 
 function loadFiles() {
-    const list = document.getElementById("file-list");
-    files.forEach(f => {
-        const item = document.createElement("div");
-        item.className = "file-item";
-        item.innerHTML = `
-            <strong>${f.name}</strong><br>
-            <a href="${f.path}" download>ダウンロード</a>
-        `;
-        list.appendChild(item);
-    });
+    fetch("files.json")
+        .then(res => res.json())
+        .then(files => {
+            const list = document.getElementById("file-list");
+            files.forEach(f => {
+                const item = document.createElement("div");
+                item.className = "file-item";
+                item.innerHTML = `
+                    <strong>${f.name}</strong><br>
+                    <a href="${f.path}" download>ダウンロード</a>
+                `;
+                list.appendChild(item);
+            });
+        });
 }
 </script>
 
