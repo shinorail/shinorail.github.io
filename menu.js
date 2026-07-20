@@ -91,3 +91,15 @@ window.addEventListener('load', () => {
         setTimeout(() => loader.classList.add('loader-fadeout'), 1200);
     }
 });
+/* --- 全ページ強制メンテナンスモード --- */
+const maintenanceMode = true; // ← メンテナンス中は true
+
+if (maintenanceMode) {
+    const current = window.location.pathname;
+
+    // メンテナンスページだけは表示する
+    if (!current.endsWith("maintenance.html")) {
+        window.location.replace("/maintenance.html");
+    }
+}
+
