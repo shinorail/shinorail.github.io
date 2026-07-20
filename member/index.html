@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>メンバー専用ページ</title>
+<style>
+body {
+    font-family: "Noto Sans JP", sans-serif;
+    background: #ffffff;
+    color: #333;
+    padding: 20px;
+}
+#login-box {
+    max-width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+#content {
+    display: none;
+}
+.file-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 6px;
+    background: #fafafa;
+}
+</style>
+</head>
+<body>
+
+<div id="login-box">
+    <h2>メンバー専用ページ</h2>
+    <p>パスワードを入力してください。</p>
+    <input type="password" id="pass" placeholder="Password">
+    <button onclick="login()">ログイン</button>
+    <p id="msg" style="color:red;"></p>
+</div>
+
+<div id="content">
+    <h1>メンバー専用資料</h1>
+    <p>ここではメンバー向けの資料を管理しています。</p>
+
+    <div id="file-list"></div>
+</div>
+
+<script>
+// 共通パスワード（くみちょうが決める）
+const PASSWORD = "shinonoi2026";
+
+// ファイル一覧（ここに追加するだけでOK）
+const files = [
+    { name: "運営ガイドライン2026.pdf", path: "files/guide2026.pdf" },
+    { name: "ロゴデータ.zip", path: "files/logo.zip" },
+    { name: "イベント資料.pdf", path: "files/event2026.pdf" }
+];
+
+function login() {
+    const input = document.getElementById("pass").value;
+    if (input === PASSWORD) {
+        document.getElementById("login-box").style.display = "none";
+        document.getElementById("content").style.display = "block";
+        loadFiles();
+    } else {
+        document.getElementById("msg").innerText = "パスワードが違います。";
+    }
+}
+
+function loadFiles() {
+    const list = document.getElementById("file-list");
+    files.forEach(f => {
+        const item = document.createElement("div");
+        item.className = "file-item";
+        item.innerHTML = `
+            <strong>${f.name}</strong><br>
+            <a href="${f.path}" download>ダウンロード</a>
+        `;
+        list.appendChild(item);
+    });
+}
+</script>
+
+</body>
+</html>
