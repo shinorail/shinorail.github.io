@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>篠ノ井乗務区 | Railway & Technology</title>
+    <title>篠ノ井乗務区 S.R.C.C. | Railway × Technology</title>
+
+    <!-- 共通CSS -->
     <link rel="stylesheet" href="style.css">
 
     <!-- Google AdSense -->
@@ -22,6 +24,7 @@
     </div>
 </div>
 
+<!-- ヘッダー（全ページ共通） -->
 <header>
     <div class="logo">篠ノ井乗務区 <span>S.R.C.C.</span></div>
 
@@ -29,21 +32,15 @@
         <span></span><span></span><span></span>
     </button>
 
-    <nav id="js-nav">
-        <ul>
-            <li><a href="/">ホーム</a></li>
-            <li><a href="documents/">配布資料</a></li>
-            <li><a href="member/">メンバー専用</a></li>
-            <li><a href="about.html">組織概要</a></li>
-            <li><a href="contact.html">お問い合わせ</a></li>
-        </ul>
+    <nav>
+        <ul class="nav-links" id="js-nav"></ul>
     </nav>
 </header>
 
 <main>
 
     <!-- HERO -->
-    <section class="hero">
+    <section class="hero fade-in">
         <div class="hero-content">
             <h1>RAILWAY × <br class="sp-only">TECHNOLOGY</h1>
             <p>鉄道の情熱を、デジタルの力で形にする。</p>
@@ -51,7 +48,7 @@
     </section>
 
     <!-- GREETING -->
-    <section class="greeting">
+    <section class="greeting fade-in">
         <div class="container">
             <h2>GREETING</h2>
             <div class="greeting-box">
@@ -69,7 +66,7 @@
     </section>
 
     <!-- HISTORY -->
-    <section class="history">
+    <section class="history fade-in">
         <div class="container">
             <h2 class="history-title">HISTORY：活動の記録</h2>
             <div class="timeline">
@@ -104,8 +101,9 @@
     </section>
 
     <!-- SERVICES -->
-    <section class="services-summary">
+    <section class="services-summary fade-in">
         <div class="container">
+            <h2 class="section-title">SERVICES</h2>
             <div class="summary-grid">
                 <div class="card">
                     <h3>Dev</h3>
@@ -126,9 +124,11 @@
 </main>
 
 <footer>
-    <p>&copy; 篠ノ井乗務区 Shinonoi Rail Crew Creative</p>
+    <p>&copy; 2026 篠ノ井乗務区 Shinonoi Rail Crew Creative</p>
 </footer>
 
+<!-- 共通JS -->
 <script src="menu.js"></script>
+
 </body>
 </html>
