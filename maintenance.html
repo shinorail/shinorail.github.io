@@ -2,32 +2,65 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>メンテナンス中</title>
+<title>メンテナンスのお知らせ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
 body {
-  background: black;
-  color: white;
-  text-align: center;
+  margin: 0;
+  padding: 60px 20px;
   font-family: 'Noto Sans JP', sans-serif;
-  padding-top: 120px;
+  background: #f5f5f5;
+  color: #333;
+  text-align: center;
 }
 
-/* 爆光アニメーション */
-.glow {
-  font-size: 48px;
-  font-weight: bold;
-  animation: glowAnime 1.5s infinite;
+.container {
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.05);
 }
 
-@keyframes glowAnime {
-  0% { text-shadow: 0 0 10px red; }
-  50% { text-shadow: 0 0 40px yellow; }
-  100% { text-shadow: 0 0 10px blue; }
+h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.time-box {
+  margin-top: 30px;
+  padding: 20px;
+  background: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
 }
 </style>
 </head>
+
 <body>
-  <div class="glow">🚧 メンテナンス中です 🚧</div>
-  <p>しばらくお待ちください。</p>
+<div class="container">
+  <h1>メンテナンス中のお知らせ</h1>
+  <p>現在、サービス向上のためシステムメンテナンスを実施しております。</p>
+  <p>ご利用のお客様にはご不便をおかけいたしますが、復旧まで今しばらくお待ちください。</p>
+
+  <div class="time-box">
+    <p>予定復旧時刻：<span id="time">計算中…</span></p>
+  </div>
+</div>
+
+<script>
+// 仮の復旧時間（例：1時間後）
+const now = new Date();
+const future = new Date(now.getTime() + 60 * 60000);
+document.getElementById("time").innerText = future.toLocaleTimeString();
+</script>
+
 </body>
 </html>
