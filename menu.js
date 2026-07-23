@@ -92,7 +92,7 @@ window.addEventListener('load', () => {
     }
 });
 /* --- 全ページ強制メンテナンスモード --- */
-const maintenanceMode = false; // ← メンテナンス中は true
+const maintenanceMode = true; // ← メンテナンス中は true   通常　false
 
 if (maintenanceMode) {
     const current = window.location.pathname;
