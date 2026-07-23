@@ -8,12 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 全ページ共通メニュー ---
     const menuItems = [
-        { name: 'HOME', url: 'index.html' },
-        { name: 'SERVICES', url: 'services.html' },
-        { name: 'WORKS', url: 'works.html' },
-        { name: 'LINKS', url: 'links.html' },
-        { name: '📄 DOCUMENTS', url: 'documents/' },
-        { name: '🔐 MEMBER', url: 'member/' }
+        { name: 'HOME', url: '/index.html' },
+        { name: 'SERVICES', url: '/services.html' },
+        { name: 'WORKS', url: '/works.html' },
+        { name: 'LINKS', url: '/links.html' },
+        { name: '📄 DOCUMENTS', url: '/documents/' },
+        { name: '🔐 MEMBER', url: '/member/' }
     ];
 
     if (!navContainer) return;
