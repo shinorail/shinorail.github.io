@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>LINKS | Shinorail-Group</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=BIZ+UDGothic:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         /* リンク集専用の追加スタイル */
         .link-container { 
@@ -13,6 +18,12 @@
             margin: 40px auto; 
             padding: 20px; 
             text-align: center; 
+        }
+
+        .link-header-title {
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            color: var(--accent-blue);
         }
         
         .link-grid { 
@@ -43,18 +54,18 @@
             box-shadow: 0 6px 20px rgba(0,255,191,0.3);
         }
 
-        /* 画像に基づいたカラー設定 */
+        /* カラー設定 */
         .btn-multix { background: linear-gradient(135deg, #d4af37, #aa8a2e); } /* 金 */
         .btn-official { background: #00c853; } /* 緑 */
         .btn-lab { background: #333; border: 1px solid #444; } /* 黒 */
         .btn-twitter { background: #1da1f2; } /* 青 */
         .btn-contact { background: #78909c; } /* グレー */
 
-        /* 広告エリアのデザイン（ダークモード対応） */
+        /* 広告エリアのデザイン */
         .ad-area {
             margin: 20px 0;
             padding: 15px;
-            background: var(--bg-card); /* 共通CSSの変数を使用 */
+            background: var(--bg-card);
             border-radius: 15px;
             border: 1px solid #333;
             min-height: 250px;
@@ -77,15 +88,13 @@
             line-height: 1.6; 
         }
     </style>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4068543578821342"
-  crossorigin="anonymous"></script>
-
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4068543578821342" crossorigin="anonymous"></script>
 </head>
 <body>
 <div id="loader"><div class="loader-content"><div class="train-track"><i class="fas fa-train train-icon"></i></div><div class="shuppatsu">出発進行!!</div></div></div>
 <header>
     <div class="logo">篠ノ井乗務区 <span>S.R.C.C.</span></div>
-    <button class="hamburger" id="js-hamburger">
+    <button class="hamburger" id="js-hamburger" aria-label="メニューを開く" title="メニューを開く">
         <span></span><span></span><span></span>
     </button>
     <nav id="js-nav"></nav>
@@ -93,7 +102,7 @@
 
 <main>
     <div class="link-container">
-        <h2 style="margin-bottom: 30px; letter-spacing: 2px; color: var(--accent-blue);">Shinorail-Group</h2>
+        <h2 class="link-header-title">Shinorail-Group</h2>
         
         <div class="link-grid">
             <a href="https://shinorail.github.io/multi-x-utility/" class="btn btn-multix">
