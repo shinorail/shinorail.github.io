@@ -2,36 +2,59 @@
 <html lang="ja">
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=BIZ+UDGothic:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=BIZ+UDGothic:wght@400;700&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ABOUT | 篠ノ井乗務区</title>
+
+    <!-- Font Awesome (アイコン用) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- 共通CSS -->
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4068543578821342" crossorigin="anonymous"></script>
 </head>
 <body>
-<div id="loader"><div class="loader-content"><div class="train-track"><i class="fas fa-train train-icon"></i></div><div class="shuppatsu">出発進行!!</div></div></div>
+
+<!-- ローディング画面 -->
+<div id="loader">
+    <div class="loader-content">
+        <div class="train-track">
+            <i class="fas fa-train train-icon"></i>
+        </div>
+        <div class="shuppatsu">出発進行!!</div>
+    </div>
+</div>
+
+<!-- ヘッダー -->
 <header>
-    <div class="logo">篠ノ井乗務区 <span>S.R.C.C.</span></div>
+    <div class="logo">
+        <a href="index.html">篠ノ井乗務区 <span>S.R.C.C.</span></a>
+    </div>
     <button class="hamburger" id="js-hamburger" aria-label="メニューを開く">
         <span></span><span></span><span></span>
     </button>
-    <nav id="js-nav"></nav>
+    <nav>
+        <ul class="nav-links" id="js-nav"></ul>
+    </nav>
 </header>
 
 <main class="container">
-    <section class="page-header">
+    <section class="page-header fade-in">
         <h1 class="section-title page-title">ABOUT US</h1>
         <p class="page-subtitle">正確なコードで、想像のその先へ。</p>
     </section>
 
-    <section class="section-box">
+    <!-- TECH STACK -->
+    <section class="section-box fade-in">
         <h2 class="section-title">TECH STACK</h2>
         <div class="stack-grid">
             <div class="stack-card">
-                <h3><i class="fas fa-code"></i> Development</h3>
+                <div class="card-icon"><i class="fas fa-code"></i></div>
+                <h3>Development</h3>
                 <ul>
                     <li>Python (Automation / Tools)</li>
                     <li>JavaScript (ES6+)</li>
@@ -40,7 +63,8 @@
                 </ul>
             </div>
             <div class="stack-card">
-                <h3><i class="fas fa-video"></i> Video Editing</h3>
+                <div class="card-icon"><i class="fas fa-video"></i></div>
+                <h3>Video Editing</h3>
                 <ul>
                     <li>PowerDirector 2025</li>
                     <li>Ultimate Suite Edition</li>
@@ -49,7 +73,8 @@
                 </ul>
             </div>
             <div class="stack-card">
-                <h3><i class="fas fa-tools"></i> Environments</h3>
+                <div class="card-icon"><i class="fas fa-tools"></i></div>
+                <h3>Environments</h3>
                 <ul>
                     <li>VS Code</li>
                     <li>Git / GitHub</li>
@@ -60,33 +85,49 @@
         </div>
     </section>
 
-    <section class="section-box">
+    <!-- OVERVIEW -->
+    <section class="section-box fade-in">
         <h2 class="section-title">OVERVIEW</h2>
         <table class="info-table">
-            <tr>
-                <th>組織名</th>
-                <td>篠ノ井乗務区 (Shinonoi Rail Crew Creative)</td>
-            </tr>
-            <tr>
-                <th>設立</th>
-                <td>2024年（令和6年）</td>
-            </tr>
-            <tr>
-                <th>事業内容</th>
-                <td>システム開発 / Webデザイン / 動画編集 / 鉄道技術研究</td>
-            </tr>
-            <tr>
-                <th>所在地</th>
-                <td>長野県 (Digital Space)</td>
-            </tr>
+            <tbody>
+                <tr>
+                    <th>組織名</th>
+                    <td>篠ノ井乗務区 (Shinonoi Rail Crew Creative)</td>
+                </tr>
+                <tr>
+                    <th>設立</th>
+                    <td>2024年（令和6年）</td>
+                </tr>
+                <tr>
+                    <th>事業内容</th>
+                    <td>システム開発 / Webデザイン / 動画編集 / 鉄道技術研究</td>
+                </tr>
+                <tr>
+                    <th>所在地</th>
+                    <td>長野県 (Digital Space)</td>
+                </tr>
+            </tbody>
         </table>
+    </section>
+
+    <!-- CONTACT CTA -->
+    <section class="contact fade-in">
+        <h2 class="section-title">CONTACT</h2>
+        <p>ご質問・ご依頼は公式X（旧Twitter）のDMまでお気軽にお問い合わせください。</p>
+        <div class="contact-cta">
+            <a href="https://x.com/Shino_Rail" target="_blank" rel="noopener noreferrer" class="btn btn-x">
+                <i class="fab fa-x-twitter"></i> 篠ノ井乗務区@公式（@Shino_Rail）
+            </a>
+        </div>
     </section>
 </main>
 
 <footer>
-    <p>&copy; 篠ノ井乗務区 Shinonoi Rail Crew Creative</p>
+    <p>&copy; 2026 篠ノ井乗務区 Shinonoi Rail Crew Creative</p>
 </footer>
 
+<!-- 共通JS -->
 <script src="menu.js"></script>
+
 </body>
 </html>
