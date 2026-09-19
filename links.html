@@ -3,71 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>LINKS | Shinorail-Group</title>
+    <title>LINKS | 篠ノ井乗務区</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=BIZ+UDGothic:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Font Awesome (アイコン用) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- 共通CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4068543578821342" crossorigin="anonymous"></script>
+
     <style>
         /* リンク集専用の追加スタイル */
         .link-container { 
-            max-width: 500px; 
+            max-width: 520px; 
             margin: 40px auto; 
             padding: 20px; 
             text-align: center; 
         }
 
         .link-header-title {
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             letter-spacing: 2px;
             color: var(--accent-blue);
+            font-size: 1.8rem;
         }
         
         .link-grid { 
             display: flex; 
             flex-direction: column; 
-            gap: 15px; 
+            gap: 16px; 
             margin-bottom: 30px; 
         }
 
-        .btn {
+        .btn-link {
             display: flex; 
             align-items: center; 
             justify-content: center; 
             gap: 12px;
-            padding: 18px; 
-            border-radius: 15px; 
-            color: white; 
+            padding: 16px 20px; 
+            border-radius: 12px; 
+            color: #ffffff; 
             text-decoration: none;
             font-weight: bold; 
-            transition: 0.3s; 
+            transition: all 0.3s ease; 
             border: none;
-            font-size: 1.1rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         }
 
-        .btn:hover { 
+        .btn-link:hover { 
             transform: translateY(-3px); 
-            box-shadow: 0 6px 20px rgba(0,255,191,0.3);
+            box-shadow: 0 6px 20px rgba(0, 255, 191, 0.3);
+            filter: brightness(1.1);
         }
 
         /* カラー設定 */
         .btn-multix { background: linear-gradient(135deg, #d4af37, #aa8a2e); } /* 金 */
         .btn-official { background: #00c853; } /* 緑 */
-        .btn-lab { background: #333; border: 1px solid #444; } /* 黒 */
-        .btn-twitter { background: #1da1f2; } /* 青 */
-        .btn-contact { background: #78909c; } /* グレー */
+        .btn-lab { background: #222; border: 1px solid rgba(255, 255, 255, 0.15); } /* 黒 */
+        .btn-x { background: #000000; border: 1px solid rgba(255, 255, 255, 0.2); } /* X (旧Twitter) */
+        .btn-contact { background: #455a64; } /* グレー */
 
         /* 広告エリアのデザイン */
         .ad-area {
-            margin: 20px 0;
+            margin: 25px 0;
             padding: 15px;
             background: var(--bg-card);
-            border-radius: 15px;
-            border: 1px solid #333;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             min-height: 250px;
             display: flex;
             flex-direction: column;
@@ -88,37 +97,51 @@
             line-height: 1.6; 
         }
     </style>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4068543578821342" crossorigin="anonymous"></script>
 </head>
 <body>
-<div id="loader"><div class="loader-content"><div class="train-track"><i class="fas fa-train train-icon"></i></div><div class="shuppatsu">出発進行!!</div></div></div>
+
+<!-- ローディング画面 -->
+<div id="loader">
+    <div class="loader-content">
+        <div class="train-track">
+            <i class="fas fa-train train-icon"></i>
+        </div>
+        <div class="shuppatsu">出発進行!!</div>
+    </div>
+</div>
+
+<!-- ヘッダー -->
 <header>
-    <div class="logo">篠ノ井乗務区 <span>S.R.C.C.</span></div>
-    <button class="hamburger" id="js-hamburger" aria-label="メニューを開く" title="メニューを開く">
+    <div class="logo">
+        <a href="index.html">篠ノ井乗務区 <span>S.R.C.C.</span></a>
+    </div>
+    <button class="hamburger" id="js-hamburger" aria-label="メニューを開く">
         <span></span><span></span><span></span>
     </button>
-    <nav id="js-nav"></nav>
+    <nav>
+        <ul class="nav-links" id="js-nav"></ul>
+    </nav>
 </header>
 
-<main>
-    <div class="link-container">
-        <h2 class="link-header-title">Shinorail-Group</h2>
+<main class="container">
+    <div class="link-container fade-in">
+        <h2 class="link-header-title">OFFICIAL LINKS</h2>
         
         <div class="link-grid">
-            <a href="https://shinorail.github.io/multi-x-utility/" class="btn btn-multix">
+            <a href="https://shinorail.github.io/multi-x-utility/" target="_blank" rel="noopener noreferrer" class="btn-link btn-multix">
                 <i class="fa-solid fa-microchip"></i> Multi-X Utility
             </a>
-            <a href="https://t.co/P00r6U34D0" class="btn btn-official">
+            <a href="https://t.co/P00r6U34D0" target="_blank" rel="noopener noreferrer" class="btn-link btn-official">
                 <i class="fa-brands fa-google"></i> 篠ノ井乗務区 公式（新）
             </a>
-            <a href="https://shinorail.github.io/lab/" class="btn btn-lab">
+            <a href="https://shinorail.github.io/lab/" target="_blank" rel="noopener noreferrer" class="btn-link btn-lab">
                 <i class="fa-brands fa-github"></i> しのれーるらぼ
             </a>
-            <a href="https://x.com/Shino_Rail" class="btn btn-twitter">
-                <i class="fa-brands fa-x-twitter"></i> 篠ノ井乗務区 Twitter
+            <a href="https://x.com/Shino_Rail" target="_blank" rel="noopener noreferrer" class="btn-link btn-x">
+                <i class="fa-brands fa-x-twitter"></i> 篠ノ井乗務区@公式（@Shino_Rail）
             </a>
-            <a href="contact.html" class="btn btn-contact">
-                <i class="fa-solid fa-file-signature"></i> お問い合わせ
+            <a href="index.html#contact" class="btn-link btn-contact">
+                <i class="fa-solid fa-envelope"></i> お問い合わせ
             </a>
         </div>
 
@@ -129,11 +152,13 @@
 
         <footer class="link-footer">
             <p>※サービス維持のため、広告を表示しています。<br>ご理解とご協力をお願い申し上げます。</p>
-            <p>&copy; 2026 Shinorail-Group. All Rights Reserved.</p>
+            <p>&copy; 2026 篠ノ井乗務区 Shinonoi Rail Crew Creative</p>
         </footer>
     </div>
 </main>
 
+<!-- 共通JS -->
 <script src="menu.js"></script>
+
 </body>
 </html>
