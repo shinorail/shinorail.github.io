@@ -2,11 +2,14 @@
 <html lang="ja">
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=BIZ+UDGothic:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=BIZ+UDGothic:wght@400;700&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>篠ノ井乗務区 S.R.C.C. | Railway × Technology</title>
+
+    <!-- Font Awesome (アイコン用) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- 共通CSS -->
     <link rel="stylesheet" href="style.css">
@@ -29,14 +32,22 @@
 
 <!-- ヘッダー（全ページ共通） -->
 <header>
-    <div class="logo">篠ノ井乗務区 <span>S.R.C.C.</span></div>
+    <div class="logo">
+        <a href="#">篠ノ井乗務区 <span>S.R.C.C.</span></a>
+    </div>
 
     <button class="hamburger" id="js-hamburger" aria-label="メニューを開く">
         <span></span><span></span><span></span>
     </button>
 
     <nav>
-        <ul class="nav-links" id="js-nav"></ul>
+        <ul class="nav-links" id="js-nav">
+            <li><a href="#greeting">ABOUT</a></li>
+            <li><a href="#services">SERVICES</a></li>
+            <li><a href="#works">WORKS</a></li>
+            <li><a href="#history">HISTORY</a></li>
+            <li><a href="#contact" class="nav-btn">CONTACT</a></li>
+        </ul>
     </nav>
 </header>
 
@@ -47,11 +58,19 @@
         <div class="hero-content">
             <h1>RAILWAY × <br class="sp-only">TECHNOLOGY</h1>
             <p>鉄道の情熱を、デジタルの力で形にする。</p>
+            <div class="hero-buttons">
+                <a href="#services" class="btn btn-primary">事業内容を見る</a>
+                <a href="#contact" class="btn btn-secondary">お問い合わせ</a>
+            </div>
         </div>
+        <a href="#greeting" class="scroll-down" aria-label="下へスクロール">
+            <span class="shuppatsu-text">出発進行!!</span>
+            <i class="fas fa-chevron-down"></i>
+        </a>
     </section>
 
     <!-- GREETING -->
-    <section class="greeting fade-in">
+    <section id="greeting" class="greeting fade-in">
         <div class="container">
             <h2>GREETING</h2>
             <div class="greeting-box">
@@ -68,8 +87,54 @@
         </div>
     </section>
 
+    <!-- SERVICES (順序を上げることで主業務をアピール) -->
+    <section id="services" class="services-summary fade-in">
+        <div class="container">
+            <h2 class="section-title">SERVICES</h2>
+            <div class="summary-grid">
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-code"></i></div>
+                    <h3>Dev</h3>
+                    <p>Webシステム・ツール開発</p>
+                    <a href="#works" class="card-link">実績を見る <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-paint-brush"></i></div>
+                    <h3>Design</h3>
+                    <p>HP制作・UIデザイン</p>
+                    <a href="#works" class="card-link">実績を見る <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-video"></i></div>
+                    <h3>Edit</h3>
+                    <p>鉄道動画・映像編集</p>
+                    <a href="#works" class="card-link">実績を見る <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WORKS (新規追加) -->
+    <section id="works" class="works fade-in">
+        <div class="container">
+            <h2 class="section-title">WORKS</h2>
+            <div class="works-grid">
+                <div class="work-item">
+                    <div class="work-img-placeholder"><i class="fas fa-laptop-code"></i></div>
+                    <h3>Webサイト制作 / 移設</h3>
+                    <p>GitHub Pagesを活用した軽量でモダンなWebサイト開発。</p>
+                </div>
+                <div class="work-item">
+                    <div class="work-img-placeholder"><i class="fas fa-photo-video"></i></div>
+                    <h3>鉄道映像コンテンツ</h3>
+                    <p>走行動画・PV編集およびYouTube向けコンテンツの制作。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- HISTORY -->
-    <section class="history fade-in">
+    <section id="history" class="history fade-in">
         <div class="container">
             <h2 class="history-title">HISTORY：活動の記録</h2>
             <div class="timeline">
@@ -103,23 +168,15 @@
         </div>
     </section>
 
-    <!-- SERVICES -->
-    <section class="services-summary fade-in">
+    <!-- CONTACT (新規追加) -->
+    <section id="contact" class="contact fade-in">
         <div class="container">
-            <h2 class="section-title">SERVICES</h2>
-            <div class="summary-grid">
-                <div class="card">
-                    <h3>Dev</h3>
-                    <p>Webシステム・ツール開発</p>
-                </div>
-                <div class="card">
-                    <h3>Design</h3>
-                    <p>HP制作・UIデザイン</p>
-                </div>
-                <div class="card">
-                    <h3>Edit</h3>
-                    <p>鉄道動画・映像編集</p>
-                </div>
+            <h2 class="section-title">CONTACT</h2>
+            <p>ご意見・ご感想・制作のご依頼は公式X（旧Twitter）のDMまでお気軽にどうぞ。</p>
+            <div class="contact-cta">
+                <a href="https://x.com/" target="_blank" rel="noopener noreferrer" class="btn btn-x">
+                    <i class="fab fa-x-twitter"></i> 公式X（旧Twitter）を見る
+                </a>
             </div>
         </div>
     </section>
@@ -131,7 +188,7 @@
 </footer>
 
 <!-- 共通JS -->
-<script src="/menu.js"></script>
+<script src="menu.js"></script>
 
 </body>
 </html>
