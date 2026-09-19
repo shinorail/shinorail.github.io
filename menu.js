@@ -4,14 +4,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const navContainer = document.getElementById('js-nav');
     const hamburger = document.getElementById('js-hamburger');
 
-    // --- 全ページ共通メニュー（GitHub Pages対応のため相対パスに変更） ---
-const menuItems = [
-    { name: 'HOME', url: 'index.html' },
-    { name: 'ABOUT', url: 'about.html' },
-    { name: 'SERVICES', url: 'services.html' },
-    { name: 'WORKS', url: 'works.html' },
-    { name: 'LINKS', url: 'links.html' },
-];
+    // --- 全ページ共通メニュー項目 ---
+    const menuItems = [
+        { name: 'HOME', url: 'index.html' },
+        { name: 'ABOUT', url: 'about.html' },
+        { name: 'SERVICES', url: 'index.html#services' },
+        { name: 'WORKS', url: 'works.html' },
+        { name: 'LINKS', url: 'links.html' },
+    ];
+
     if (navContainer) {
         // js-nav が ULタグ か NAVタグ かを自動判別して組み立て
         let navUl;
@@ -24,26 +25,39 @@ const menuItems = [
             navContainer.appendChild(navUl);
         }
 
-        const currentPath = window.location.pathname;
+        const currentPath = window.location.pathname.split('?')[0].split('#')[0];
 
+        // メニューリンクの生成
         menuItems.forEach(item => {
             const li = document.createElement('li');
             const a = document.createElement('a');
             a.href = item.url;
             a.textContent = item.name;
 
-            // アクティブページの判定ロジック修正
+            // アクティブページの判定ロジック
             const isHome = (currentPath === '/' || currentPath.endsWith('/') || currentPath.endsWith('index.html'));
 
             if (isHome && item.url === 'index.html') {
                 a.classList.add('active-page');
-            } else if (!isHome && currentPath.includes(item.url)) {
+            } else if (!isHome && item.url.endsWith('.html') && currentPath.includes(item.url)) {
                 a.classList.add('active-page');
             }
 
             li.appendChild(a);
             navUl.appendChild(li);
         });
+
+        // --- CTA (お問い合わせ) ボタンをナビゲーション右端に自動追加 ---
+        const ctaLi = document.createElement('li');
+        ctaLi.className = 'nav-cta-item';
+        const ctaBtn = document.createElement('a');
+        ctaBtn.href = 'https://x.com/Shino_Rail';
+        ctaBtn.target = '_blank';
+        ctaBtn.rel = 'noopener noreferrer';
+        ctaBtn.className = 'nav-cta-btn';
+        ctaBtn.innerHTML = '<i class="fab fa-x-twitter"></i> CONTACT';
+        ctaLi.appendChild(ctaBtn);
+        navUl.appendChild(ctaLi);
 
         // --- ハンバーガー開閉制御 ---
         if (hamburger) {
@@ -75,22 +89,31 @@ const menuItems = [
                     }
                 }
             });
+
+            // Escキーでハンバーガーメニューを閉じる
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && navUl.classList.contains('active')) {
+                    closeMenu();
+                }
+            });
         }
     }
 });
 
-/* スクロールフェードイン */
+/* スクロールフェードイン (IntersectionObserver) */
 document.addEventListener('DOMContentLoaded', () => {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.classList.add('visible');
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
         });
     }, { threshold: 0.1 });
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 });
 
-/* ローディング解除（CSSの loaded / loader-fadeout の両方に対応） */
+/* ローディング画面解除（CSSの loaded / loader-fadeout の両方に対応） */
 window.addEventListener('load', () => {
     const loader = document.getElementById('loader');
     if (loader) {
@@ -101,7 +124,7 @@ window.addEventListener('load', () => {
     }
 });
 
-/* 全ページ強制メンテナンスモード */
+/* 全ページ強制メンテナンスモード制御 */
 const maintenanceMode = false; // ← メンテナンス中は true / 通常は false
 
 if (maintenanceMode) {
