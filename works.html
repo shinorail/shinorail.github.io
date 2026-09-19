@@ -1,108 +1,148 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=BIZ+UDGothic:wght@400;700&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WORKS | 篠ノ井乗務区</title>
+
+    <!-- Font Awesome (アイコン用) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- 共通CSS -->
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4068543578821342" crossorigin="anonymous"></script>
 
     <style>
-        /* ページ固有のCSS（インラインスタイルの移行先） */
+        /* ページ固有のCSS（style.cssと調和） */
         .page-header-works {
             text-align: center;
-            padding: 60px 0;
+            padding: 40px 0 20px;
         }
 
-        .page-header-works .section-title {
+        .page-header-works .page-title {
             border: none;
-            font-size: 3.5rem;
-            margin-bottom: 10px;
+            font-size: 2.8rem;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
         }
 
-        .text-sub {
-            color: var(--text-sub);
-        }
-
-        .card-title {
+        .card-badge {
+            display: inline-block;
+            background: rgba(0, 224, 255, 0.12);
             color: var(--accent-blue);
-        }
-
-        .card-text {
-            font-size: 0.85rem;
-            color: var(--text-sub);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 224, 255, 0.3);
             margin-top: 10px;
+            width: fit-content;
         }
 
-        .card-link {
-            color: var(--accent-green);
-            text-decoration: none;
-            font-size: 0.8rem;
-        }
-
-        .card-meta {
-            font-size: 0.8rem;
-            color: var(--text-sub);
-        }
-
-        .section-box-works {
-            margin-top: 60px;
-        }
-
-        .message-content-center {
+        .coming-soon-box {
+            background: var(--bg-card);
+            border: 1px dashed rgba(0, 255, 191, 0.3);
+            border-radius: 8px;
+            padding: 40px 20px;
             text-align: center;
             color: var(--text-sub);
+        }
+
+        .coming-soon-box i {
+            font-size: 2.5rem;
+            color: var(--accent-green);
+            margin-bottom: 12px;
+            opacity: 0.8;
+        }
+
+        .coming-soon-box p {
+            margin: 0;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
         }
     </style>
 </head>
 <body>
 
+<!-- ローディング画面 -->
 <div id="loader">
     <div class="loader-content">
-        <div class="train-track"><i class="fas fa-train train-icon"></i></div>
+        <div class="train-track">
+            <i class="fas fa-train train-icon"></i>
+        </div>
         <div class="shuppatsu">出発進行!!</div>
     </div>
 </div>
 
+<!-- ヘッダー -->
 <header>
-    <div class="logo">篠ノ井乗務区 <span>S.R.C.C.</span></div>
-    <button class="hamburger" id="js-hamburger" aria-label="メニューを開く" title="メニューを開く">
+    <div class="logo">
+        <a href="index.html">篠ノ井乗務区 <span>S.R.C.C.</span></a>
+    </div>
+    <button class="hamburger" id="js-hamburger" aria-label="メニューを開く">
         <span></span><span></span><span></span>
     </button>
-    <nav id="js-nav"></nav>
+    <nav>
+        <ul class="nav-links" id="js-nav"></ul>
+    </nav>
 </header>
 
 <main class="container">
-    <section class="page-header page-header-works">
-        <h1 class="section-title">WORKS</h1>
-        <p class="text-sub">「篠ノ井乗務区」が手がけたプロジェクトの一部をご紹介します。</p>
+    <section class="page-header page-header-works fade-in">
+        <h1 class="section-title page-title">WORKS</h1>
+        <p class="page-subtitle">「篠ノ井乗務区」が手がけたプロジェクト・開発成果物をご紹介します。</p>
     </section>
 
-    <div class="summary-grid">
+    <!-- PROJECT GRID -->
+    <div class="summary-grid fade-in">
         <div class="card">
-            <h3 class="card-title">Multi-X Utility</h3>
-            <p class="card-text">独自開発の多機能ユーティリティツール。効率的なデジタルライフを支援します。</p>
-            <a href="https://shinorail.github.io/multi-x-utility/" class="card-link">VIEW PROJECT →</a>
+            <div class="card-icon"><i class="fas fa-tools"></i></div>
+            <h3>Multi-X Utility</h3>
+            <p>独自開発の多機能ユーティリティツール。効率的なデジタルライフを支援します。</p>
+            <a href="https://shinorail.github.io/multi-x-utility/" target="_blank" rel="noopener noreferrer" class="card-link">
+                VIEW PROJECT <i class="fas fa-external-link-alt"></i>
+            </a>
         </div>
 
         <div class="card">
-            <h3 class="card-title">しのれーるらぼ</h3>
-            <p class="card-text">GitHubでのソースコード公開プロジェクト。技術の共有と発展を目指しています。</p>
-            <a href="https://shinorail.github.io/lab/" class="card-link">VIEW PROJECT →</a>
+            <div class="card-icon"><i class="fas fa-flask"></i></div>
+            <h3>しのれーるらぼ</h3>
+            <p>GitHubでのソースコード公開プロジェクト。技術の共有と発展を目指しています。</p>
+            <a href="https://shinorail.github.io/lab/" target="_blank" rel="noopener noreferrer" class="card-link">
+                VIEW PROJECT <i class="fas fa-external-link-alt"></i>
+            </a>
         </div>
 
         <div class="card">
-            <h3 class="card-title">GitHub Pages Migration</h3>
-            <p class="card-text">Google SitesからGitHub Pagesへの全面移設プロジェクト。独自デザインの導入。</p>
-            <span class="card-meta">COMPLETED 2026.01</span>
+            <div class="card-icon"><i class="fas fa-globe"></i></div>
+            <h3>GitHub Pages Migration</h3>
+            <p>Google SitesからGitHub Pagesへの全面移設プロジェクト。独自デザイン・高速UIの導入。</p>
+            <span class="card-badge"><i class="fas fa-check-circle"></i> COMPLETED 2026.01</span>
         </div>
     </div>
 
-    <section class="section-box section-box-works">
+    <!-- VIDEO ARCHIVE -->
+    <section class="section-box fade-in" style="margin-top: 50px;">
         <h2 class="section-title">VIDEO ARCHIVE</h2>
-        <div class="message-content message-content-center">
-            <p>準備中です。</p>
+        <div class="coming-soon-box">
+            <i class="fas fa-film"></i>
+            <p>鉄道動画アーカイブを準備中です。順次公開予定です。</p>
+        </div>
+    </section>
+
+    <!-- CONTACT CTA -->
+    <section class="contact fade-in">
+        <h2 class="section-title">CONTACT</h2>
+        <p>制作のご依頼・開発に関するご質問は公式X（旧Twitter）のDMまでお気軽にどうぞ。</p>
+        <div class="contact-cta">
+            <a href="https://x.com/Shino_Rail" target="_blank" rel="noopener noreferrer" class="btn btn-x">
+                <i class="fab fa-x-twitter"></i> 篠ノ井乗務区@公式（@Shino_Rail）
+            </a>
         </div>
     </section>
 </main>
@@ -111,6 +151,8 @@
     <p>&copy; 2026 篠ノ井乗務区 Shinonoi Rail Crew Creative</p>
 </footer>
 
+<!-- 共通JS -->
 <script src="menu.js"></script>
+
 </body>
 </html>
